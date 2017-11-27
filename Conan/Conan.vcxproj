@@ -143,8 +143,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="alphalist.h" />
+    <ClInclude Include="binding.h" />
+    <ClInclude Include="button.h" />
+    <ClInclude Include="buttonbox.h" />
+    <ClInclude Include="calendar.h" />
+    <ClInclude Include="cdk.h" />
+    <ClInclude Include="cdkscreen.h" />
+    <ClInclude Include="cdk_compat.h" />
+    <ClInclude Include="cdk_int.h" />
+    <ClInclude Include="cdk_objs.h" />
+    <ClInclude Include="cdk_params.h" />
+    <ClInclude Include="cdk_test.h" />
+    <ClInclude Include="cdk_util.h" />
+    <ClInclude Include="curdefs.h" />
+    <ClInclude Include="dialog.h" />
+    <ClInclude Include="draw.h" />
+    <ClInclude Include="entry.h" />
+    <ClInclude Include="fselect.h" />
+    <ClInclude Include="gen-scale.h" />
+    <ClInclude Include="gen-slider.h" />
+    <ClInclude Include="graph.h" />
+    <ClInclude Include="histogram.h" />
+    <ClInclude Include="itemlist.h" />
+    <ClInclude Include="label.h" />
+    <ClInclude Include="marquee.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="mentry.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="radio.h" />
+    <ClInclude Include="scroll.h" />
+    <ClInclude Include="scroller.h" />
+    <ClInclude Include="selection.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="swindow.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="template.h" />
+    <ClInclude Include="traverse.h" />
+    <ClInclude Include="viewer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Conan.c" />
@@ -154,6 +190,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cdk_version.hin" />
+    <None Include="config.hin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
