@@ -1,6 +1,7 @@
 /********************************* tui.c ************************************/
 /*
  * 'textual user interface'
+ *
  */
 
 #include <ctype.h>
@@ -8,8 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 #include <time.h>
+#include <wchar.h>
 #include "tui.h"
 #include "appinfo.h"
 
@@ -22,7 +23,7 @@ void rmerror(void);
 #endif
 
 #ifdef A_COLOR
-# define TITLECOLOR        1       /* color pair indices */
+# define TITLECOLOR       1       /* color pair indices */
 # define MAINMENUCOLOR    (2 | A_BOLD)
 # define MAINMENUREVCOLOR (3 | A_BOLD | A_REVERSE)
 # define SUBMENUCOLOR     (4 | A_BOLD)
@@ -68,17 +69,11 @@ static char wordchar(void)
 
 static char *padstr(char *s, int length)
 {
-	//sprintf_s("%s", sizeof(s), s);
-	//char *r;
-	//strcpy_s(r, sizeof(r), s);
-	
-
     static char buf[MAXSTRLEN];
     char fmt[10];
 
-    sprintf_s(fmt,sizeof(fmt), (int)strlen(s) > length ? "%%.%ds" : "%%-%ds", length);
-    sprintf_s(buf, sizeof(buf), fmt, s);
-	//sprintf_s("데이터", sizeof("데이터"));
+    sprintf_s(fmt, sizeof(fmt), (int)strlen(s) > length ? "%%.%ds" : "%%-%ds", length);
+    sprintf_s(buf, sizeof(buf),  fmt, s);
 
     return buf;
 }
@@ -113,13 +108,13 @@ static void initcolor(void)
 
     /* foreground, background */
 
-    init_pair(TITLECOLOR       & ~A_ATTR, COLOR_BLACK, COLOR_CYAN);
-    init_pair(MAINMENUCOLOR    & ~A_ATTR, COLOR_WHITE, COLOR_CYAN);
+    init_pair(TITLECOLOR       & ~A_ATTR, COLOR_BLACK, COLOR_YELLOW);
+    init_pair(MAINMENUCOLOR    & ~A_ATTR, COLOR_WHITE, COLOR_YELLOW);
     init_pair(MAINMENUREVCOLOR & ~A_ATTR, COLOR_WHITE, COLOR_BLACK);
-    init_pair(SUBMENUCOLOR     & ~A_ATTR, COLOR_WHITE, COLOR_CYAN);
+    init_pair(SUBMENUCOLOR     & ~A_ATTR, COLOR_WHITE, COLOR_YELLOW);
     init_pair(SUBMENUREVCOLOR  & ~A_ATTR, COLOR_WHITE, COLOR_BLACK);
-    init_pair(BODYCOLOR        & ~A_ATTR, COLOR_WHITE, COLOR_BLUE);
-    init_pair(STATUSCOLOR      & ~A_ATTR, COLOR_WHITE, COLOR_CYAN);
+    init_pair(BODYCOLOR        & ~A_ATTR, COLOR_BLACK, COLOR_WHITE);
+    init_pair(STATUSCOLOR      & ~A_ATTR, COLOR_WHITE, COLOR_YELLOW);
     init_pair(INPUTBOXCOLOR    & ~A_ATTR, COLOR_BLACK, COLOR_CYAN);
     init_pair(EDITBOXCOLOR     & ~A_ATTR, COLOR_WHITE, COLOR_BLACK);
 #endif
@@ -172,21 +167,16 @@ static void colorbox(WINDOW *win, chtype color, int hasbox)
 static void idle(void)
 {
     char buf[MAXSTRLEN];
-    time_t base_time = 0;
     time_t t;
     struct tm *tp;
 
-    if (time(&t) == -1)
+    if (time (&t) == -1)
         return;  /* time not available */
 
-    //tp = localtime_s(&t, &base_time);
-    
-    
-    sprintf_s(buf, sizeof(buf) , appversion );
+   // tp = localtime(&t);
+    sprintf_s(buf, sizeof(buf),appversion);
 
-
-
-    mvwaddstr(wtitl, 0, bw - strlen(buf) - 2, buf);
+    mvwaddstr(wtitl, (int)0, (int)(bw - strlen(buf) - 2), buf);
     wrefresh(wtitl);
 }
 
@@ -194,8 +184,8 @@ static void menudim(menu *mp, int *lines, int *columns)
 {
     int n, l, mmax = 0;
 
-    for (n = 0; mp->func; n++, mp++)
-        if ((l = strlen(mp->name)) > mmax) mmax = l;
+    for (n=0; mp->func; n++, mp++)
+        if ((l = (int)strlen(mp->name)) > mmax) mmax = l;
 
     *lines = n;
     *columns = mmax + 2;
@@ -251,10 +241,31 @@ static void repaintmainmenu(int width, menu *mp)
 static void mainhelp(void)
 {
 #ifdef ALT_X
-    statusmsg("Use arrow keys and Enter to select (Alt-X to quit)");
+    statusmsg("Use arrow keys and Enter to select (Alt-X to quit) - Created by Junghoon Lee, 2017");
 #else
     statusmsg("Use arrow keys and Enter to select");
 #endif
+}
+
+static void mainScreen() {
+	bodymsg(L"  ______                        \n / _____)                       \n| /      ___  ____   ____ ____  \n| |     / _ \|  _ \ / _  |  _ \ \n| \____| |_| | | | ( ( | | | | |\n \______)___/|_| |_|\_||_|_| |_|\n\n");
+
+	bodymsg(L"'어... 그 노래 제목이 뭐였더라...' 내가 지금 흥얼거리고 있는 노래가 궁금할 때\n\n");
+
+	bodymsg(L" 0.3 패치 변경 내역\n");
+	bodymsg(L"======================================\n");
+	bodymsg(L"메인 스크린 구성\n");
+
+	bodymsg(L"\n\n");
+
+	bodymsg(L" 찾아낼 수 있는 음악\n");
+	bodymsg(L"======================================\n");
+	bodymsg(L"없음\n");
+
+	bodymsg(L"\n\n");
+	bodymsg(L" 코난 - 노래 찾는 탐정은 음악의 고유한 특징을 질문, 추정하여 찾고자 하는 음악이 무엇인지 알아냅니다.\n");
+	bodymsg(L" 기존에는 음원을 재생해야 찾을 수 있었지만, Conan은 머리속에서 재생되는 음악을 찾습니다. 지금 플레이해보세요.");
+
 }
 
 static void mainmenu(menu *mp)
@@ -263,7 +274,7 @@ static void mainmenu(menu *mp)
 
     menudim(mp, &nitems, &barlen);
     repaintmainmenu(barlen, mp);
-
+	mainScreen();
     while (!quit)
     {
         if (cur != old)
@@ -271,7 +282,7 @@ static void mainmenu(menu *mp)
             if (old != -1)
             {
                 mvwaddstr(wmain, 0, old * barlen,
-                    prepad(padstr(mp[old].name, barlen - 1), 1));
+                          prepad(padstr(mp[old].name, barlen - 1), 1));
 
                 statusmsg(mp[cur].desc);
             }
@@ -281,7 +292,7 @@ static void mainmenu(menu *mp)
             setcolor(wmain, MAINMENUREVCOLOR);
 
             mvwaddstr(wmain, 0, cur * barlen,
-                prepad(padstr(mp[cur].name, barlen - 1), 1));
+                      prepad(padstr(mp[cur].name, barlen - 1), 1));
 
             setcolor(wmain, MAINMENUCOLOR);
             old = cur;
@@ -290,7 +301,11 @@ static void mainmenu(menu *mp)
 
         switch (c = (key != ERR ? key : waitforkey()))
         {
+#ifdef KEY_C2
+        case KEY_C2:
+#endif
         case KEY_DOWN:
+
         case '\n':              /* menu item selected */
             touchwin(wbody);
             wrefresh(wbody);
@@ -302,11 +317,17 @@ static void mainmenu(menu *mp)
 
             switch (key)
             {
+#ifdef KEY_B1
+            case KEY_B1:
+#endif
             case KEY_LEFT:
                 cur = (cur + nitems - 1) % nitems;
                 key = '\n';
                 break;
 
+#ifdef KEY_B3
+            case KEY_B3:
+#endif
             case KEY_RIGHT:
                 cur = (cur + 1) % nitems;
                 key = '\n';
@@ -320,10 +341,16 @@ static void mainmenu(menu *mp)
             old = -1;
             break;
 
+#ifdef KEY_B1
+        case KEY_B1:
+#endif
         case KEY_LEFT:
             cur = (cur + nitems - 1) % nitems;
             break;
 
+#ifdef KEY_B3
+        case KEY_B3:
+#endif
         case KEY_RIGHT:
             cur = (cur + 1) % nitems;
             break;
@@ -404,14 +431,13 @@ void rmstatus(void)
 
 void titlemsg(char *msg)
 {
-	
     mvwaddstr(wtitl, 0, 2, padstr(msg, bw - 3));
     wrefresh(wtitl);
 }
 
-void bodymsg(char *msg)
+void bodymsg(wchar_t *msg)
 {
-    waddstr(wbody, msg);
+    waddwstr(wbody, msg);
     wrefresh(wbody);
 }
 
@@ -480,11 +506,11 @@ void domenu(menu *mp)
         {
             if (old != -1)
                 mvwaddstr(wmenu, old + 1, 1,
-                    prepad(padstr(mp[old].name, barlen - 1), 1));
+                          prepad(padstr(mp[old].name, barlen - 1), 1));
 
             setcolor(wmenu, SUBMENUREVCOLOR);
             mvwaddstr(wmenu, cur + 1, 1,
-                prepad(padstr(mp[cur].name, barlen - 1), 1));
+                      prepad(padstr(mp[cur].name, barlen - 1), 1));
 
             setcolor(wmenu, SUBMENUCOLOR);
             statusmsg(mp[cur].desc);
@@ -511,18 +537,30 @@ void domenu(menu *mp)
             old = -1;
             break;
 
+#ifdef KEY_A2
+        case KEY_A2:
+#endif
         case KEY_UP:
             cur = (cur + nitems - 1) % nitems;
             key = ERR;
             break;
 
+#ifdef KEY_C2
+        case KEY_C2:
+#endif
         case KEY_DOWN:
             cur = (cur + 1) % nitems;
             key = ERR;
             break;
 
         case KEY_ESC:
+#ifdef KEY_B1
+        case KEY_B1:
+#endif
         case KEY_LEFT:
+#ifdef KEY_B3
+        case KEY_B3:
+#endif
         case KEY_RIGHT:
             if (key == KEY_ESC)
                 key = ERR;  /* return to prev submenu */
@@ -538,7 +576,7 @@ void domenu(menu *mp)
                 cur = (cur + 1) % nitems;
 
             } while ((cur != cur0) &&
-                (hotkey(mp[cur].name) != toupper((int)key)));
+                     (hotkey(mp[cur].name) != toupper((int)key)));
 
             key = (hotkey(mp[cur].name) == toupper((int)key)) ? '\n' : ERR;
         }
@@ -553,8 +591,6 @@ void domenu(menu *mp)
 
 void startmenu(menu *mp, char *mtitle)
 {
-
-	
     initscr();
     incurses = TRUE;
     initcolor();
@@ -587,7 +623,9 @@ void startmenu(menu *mp, char *mtitle)
 
     mainmenu(mp);
 
+
     cleanup();
+
 }
 
 static void repainteditbox(WINDOW *win, int x, char *buf)
@@ -610,24 +648,24 @@ static void repainteditbox(WINDOW *win, int x, char *buf)
 
 /*
 
-weditstr()     - edit string
+  weditstr()     - edit string
 
-Description:
-The initial value of 'str' with a maximum length of 'field' - 1,
-which is supplied by the calling routine, is editted. The user's
-erase (^H), kill (^U) and delete word (^W) chars are interpreted.
-The PC insert or Tab keys toggle between insert and edit mode.
-Escape aborts the edit session, leaving 'str' unchanged.
-Enter, Up or Down Arrow are used to accept the changes to 'str'.
-NOTE: editstr(), mveditstr(), and mvweditstr() are macros.
+  Description:
+    The initial value of 'str' with a maximum length of 'field' - 1,
+    which is supplied by the calling routine, is editted. The user's
+    erase (^H), kill (^U) and delete word (^W) chars are interpreted.
+    The PC insert or Tab keys toggle between insert and edit mode.
+    Escape aborts the edit session, leaving 'str' unchanged.
+    Enter, Up or Down Arrow are used to accept the changes to 'str'.
+    NOTE: editstr(), mveditstr(), and mvweditstr() are macros.
 
-Return Value:
-Returns the input terminating character on success (Escape,
-Enter, Up or Down Arrow) and ERR on error.
+  Return Value:
+    Returns the input terminating character on success (Escape,
+    Enter, Up or Down Arrow) and ERR on error.
 
-Errors:
-It is an error to call this function with a NULL window pointer.
-The length of the initial 'str' must not exceed 'field' - 1.
+  Errors:
+    It is an error to call this function with a NULL window pointer.
+    The length of the initial 'str' must not exceed 'field' - 1.
 
 */
 
@@ -635,7 +673,8 @@ int weditstr(WINDOW *win, char *buf, int field)
 {
     char org[MAXSTRLEN], *tp, *bp = buf;
     bool defdisp = TRUE, stop = FALSE, insert = FALSE;
-    int cury, curx, begy, begx, oldattr;
+    int cury, curx, begy, begx;
+    chtype oldattr;
     WINDOW *wedit;
     int c = 0;
 
@@ -643,7 +682,7 @@ int weditstr(WINDOW *win, char *buf, int field)
         ((int)strlen(buf) > field - 1))
         return ERR;
 
-    strcpy_s(org, sizeof(buf),buf);   /* save original */
+    strcpy_s(org, sizeof(org),  buf);   /* save original */
 
     wrefresh(win);
     getyx(win, cury, curx);
@@ -659,7 +698,7 @@ int weditstr(WINDOW *win, char *buf, int field)
     while (!stop)
     {
         idle();
-        repainteditbox(wedit, bp - buf, buf);
+        repainteditbox(wedit, (int)(bp - buf), buf);
 
         switch (c = wgetch(wedit))
         {
@@ -667,21 +706,33 @@ int weditstr(WINDOW *win, char *buf, int field)
             break;
 
         case KEY_ESC:
-            strcpy_s(buf,sizeof(org), org);   /* restore original */
+            strcpy_s(buf, sizeof(buf), org);   /* restore original */
             stop = TRUE;
             break;
 
         case '\n':
+#ifdef KEY_A2
+        case KEY_A2:
+#endif
         case KEY_UP:
+#ifdef KEY_C2
+        case KEY_C2:
+#endif
         case KEY_DOWN:
             stop = TRUE;
             break;
 
+#ifdef KEY_B1
+        case KEY_B1:
+#endif
         case KEY_LEFT:
             if (bp > buf)
                 bp--;
             break;
 
+#ifdef KEY_B3
+        case KEY_B3:
+#endif
         case KEY_RIGHT:
             defdisp = FALSE;
             if (bp - buf < (int)strlen(buf))
@@ -689,7 +740,7 @@ int weditstr(WINDOW *win, char *buf, int field)
             break;
 
         case '\t':            /* TAB -- because insert
-                              is broken on HPUX */
+                                  is broken on HPUX */
         case KEY_IC:          /* enter insert mode */
         case KEY_EIC:         /* exit insert mode */
             defdisp = FALSE;
@@ -723,7 +774,7 @@ int weditstr(WINDOW *win, char *buf, int field)
 
                 memmove((void *)bp, (const void *)tp, strlen(tp) + 1);
             }
-            else if (isprint(c))
+            else if( c >=0 && c < 256 && isprint(c))
             {
                 if (defdisp)
                 {
@@ -737,7 +788,7 @@ int weditstr(WINDOW *win, char *buf, int field)
                     if ((int)strlen(buf) < field - 1)
                     {
                         memmove((void *)(bp + 1), (const void *)bp,
-                            strlen(bp) + 1);
+                                strlen(bp) + 1);
 
                         *bp++ = c;
                     }
@@ -758,7 +809,7 @@ int weditstr(WINDOW *win, char *buf, int field)
     curs_set(0);
 
     wattrset(wedit, oldattr);
-    repainteditbox(wedit, bp - buf, buf);
+    repainteditbox(wedit, (int)(bp - buf), buf);
     delwin(wedit);
 
     return c;
@@ -786,7 +837,7 @@ int getstrings(char *desc[], char *buf[], int field)
     bool stop = FALSE;
 
     for (n = 0; desc[n]; n++)
-        if ((l = strlen(desc[n])) > mmax)
+        if ((l = (int)strlen(desc[n])) > mmax)
             mmax = l;
 
     nlines = n + 2; ncols = mmax + field + 4;
@@ -803,18 +854,24 @@ int getstrings(char *desc[], char *buf[], int field)
 
     while (!stop)
     {
-        switch (c = mvweditstr(winput, i + 1, mmax + 3, buf[i], field))
+        switch (c = mvweditstr(winput, i+1, mmax+3, buf[i], field))
         {
         case KEY_ESC:
             stop = TRUE;
             break;
 
+#ifdef KEY_A2
+        case KEY_A2:
+#endif
         case KEY_UP:
             i = (i + n - 1) % n;
             break;
 
         case '\n':
         case '\t':
+#ifdef KEY_C2
+        case KEY_C2:
+#endif
         case KEY_DOWN:
             if (++i == n)
                 stop = TRUE;    /* all passed? */

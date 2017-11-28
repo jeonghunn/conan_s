@@ -21,27 +21,30 @@
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\curses.h">
+    <ClInclude Include="appinfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\panel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="tui.h">
+    <ClInclude Include="include\tui.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="appinfo.h">
+    <ClInclude Include="include\curses.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Conan.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="tui.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\pd\demos\testcurs.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
