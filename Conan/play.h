@@ -1,5 +1,5 @@
 #pragma once
 
-void    playMode(void);
-void    playResult(void);
-void    playGiveUp(void);
+void    PlayMode(void);
+void    PlayResult(void);
+void    PlayGiveUp(void);
