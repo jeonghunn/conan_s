@@ -247,15 +247,15 @@ static void mainhelp(void)
 #endif
 }
 
-static void mainScreen() {
+ void mainScreen() {
 	clsbody();
 	bodymsg(L"  ______                        \n / _____)                       \n| /      ___  ____   ____ ____  \n| |     / _ \|  _ \ / _  |  _ \ \n| \____| |_| | | | ( ( | | | | |\n \______)___/|_| |_|\_||_|_| |_|\n\n");
 
 	bodymsg(L"'어... 그 노래 제목이 뭐였더라...' 내가 지금 흥얼거리고 있는 노래가 궁금할 때\n\n");
 
-	bodymsg(L" 0.6 패치 변경 내역\n");
+	bodymsg(L" 0.7 패치 변경 내역\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"플레이 모드 인터페이스 구성됨\n");
+	bodymsg(L"플레이 결과 인터페이스 구성됨\n");
 
 	bodymsg(L"\n\n");
 

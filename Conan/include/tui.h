@@ -45,6 +45,7 @@ int     getkey(void);
 int     waitforkey(void);
 
 void    DoExit(void);
+void    mainScreen(void);
 void    startmenu(menu *mp, char *title);
 void    domenu(menu *mp);
 
