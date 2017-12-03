@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="appinfo.h" />
+    <ClInclude Include="data.h" />
+    <ClInclude Include="decision.h" />
     <ClInclude Include="include\curses.h" />
     <ClInclude Include="include\panel.h" />
     <ClInclude Include="include\tui.h" />
@@ -161,6 +163,8 @@
     <ClCompile Include="C:\pd\demos\testcurs.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="data.c" />
+    <ClCompile Include="decision.c" />
     <ClCompile Include="main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

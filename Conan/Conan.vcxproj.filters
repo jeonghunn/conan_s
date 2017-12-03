@@ -36,6 +36,12 @@
     <ClInclude Include="play.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="decision.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="data.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.c">
@@ -54,6 +60,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="appinfo.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="decision.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="data.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

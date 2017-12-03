@@ -24,8 +24,8 @@
 
 	bodymsg(L" ChangeLog\n");
 	bodymsg(L"======================================\n");
+	bodymsg(L"0.10 플레이 기능 작동\n");
 	bodymsg(L"0.7 Play Result 페이지 인터페이스 구성됨,Play Mode 인터페이스 구성됨\n");
-	bodymsg(L"0.5 팀 정보 구성, 정보 화면 구성\n");
 	bodymsg(L"0.1 초기 디자인 구성\n");
 
 	bodymsg(L"\n");

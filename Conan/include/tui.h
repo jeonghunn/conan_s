@@ -36,7 +36,8 @@ void    rmerror(void);
 void    rmstatus(void);
 
 void    titlemsg(char *msg);
-void    bodymsg(char *msg);
+void    bodymsg(wchar_t *msg);
+void    bodycmsg(char *msg);
 void    errormsg(char *msg);
 void    statusmsg(char *msg);
 

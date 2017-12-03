@@ -114,7 +114,7 @@ static void initcolor(void)
     init_pair(SUBMENUCOLOR     & ~A_ATTR, COLOR_WHITE, COLOR_YELLOW);
     init_pair(SUBMENUREVCOLOR  & ~A_ATTR, COLOR_WHITE, COLOR_BLACK);
     init_pair(BODYCOLOR        & ~A_ATTR, COLOR_BLACK, COLOR_WHITE);
-    init_pair(STATUSCOLOR      & ~A_ATTR, COLOR_WHITE, COLOR_YELLOW);
+    init_pair(STATUSCOLOR      & ~A_ATTR, COLOR_BLACK, COLOR_YELLOW);
     init_pair(INPUTBOXCOLOR    & ~A_ATTR, COLOR_BLACK, COLOR_CYAN);
     init_pair(EDITBOXCOLOR     & ~A_ATTR, COLOR_WHITE, COLOR_BLACK);
 #endif
@@ -253,9 +253,9 @@ static void mainhelp(void)
 
 	bodymsg(L"'어... 그 노래 제목이 뭐였더라...' 내가 지금 흥얼거리고 있는 노래가 궁금할 때\n\n");
 
-	bodymsg(L" 0.8 패치 변경 내역\n");
+	bodymsg(L" 0.10 패치 변경 내역\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"fail 화면 인터페이스 구성됨\n");
+	bodymsg(L"게임 플레이 가능\n");
 
 	bodymsg(L"\n\n");
 
@@ -440,6 +440,12 @@ void bodymsg(wchar_t *msg)
 {
     waddwstr(wbody, msg);
     wrefresh(wbody);
+}
+
+void bodycmsg(char *msg)
+{
+	waddstr(wbody, msg);
+	wrefresh(wbody);
 }
 
 void errormsg(char *msg)
