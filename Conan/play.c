@@ -159,7 +159,7 @@ int listbox()
 			old_option = -1;
 			//erase();
 			//refresh();
-		
+
 			if (new_option == 0) SELECTED_ANSWER = 5;
 			if (new_option == 1) SELECTED_ANSWER = 4;
 			if (new_option == 2) SELECTED_ANSWER = 3;
@@ -222,11 +222,11 @@ int listbox()
 			break;
 
 		}
+
 	}
-
-
 	return 0;
 }
+
 
 //int to chararray
 void printBodyInt(int num) {
@@ -302,14 +302,56 @@ void PlayMode(int questnum) {
 	bodymsg(L"             -hhhhh---:yo/+///-:-s/     \n");
 	bodymsg(L"            `shhhho.-:ys+++oo++:/yo     \n");
 	bodymsg(L"            .yhhhhs+yhhhysssooosyo      \n");
-	bodymsg(L"           `ydhhhhhhhhhhhhhdhso++`      \n");
+	bodymsg(L"           `ydhhhhhhhhhhhhhdhso++`      이노래 아닌데;; - N을 눌러 계속 진행하기\n");
 	bodymsg(L"           /hhhhhyohhhhhhhhh-           \n");
-	bodymsg(L"           +yhhdhhyhhhhhhhhd-           <Enter>를 눌러 게임 종료하기\n");
+	bodymsg(L"           +yhhdhhyhhhhhhhhd-           이거 맞아요 - <ESC>를 눌러 게임 종료하기\n");
 	bodymsg(L"           ohhhhhhhhhhhhhhhy`           \n");
 	bodymsg(L"          .hhhhyyshhhhhhhhhh+           \n");
 	bodymsg(L"          :hhysyyshhhhhhhhhhh.          \n");
 	bodymsg(L"          .:oooosyyhhhhhhhyyo`          ");
 
+	int key;
+	bool quit = FALSE;
+
+	while (1)
+	{
+		noecho();
+		keypad(stdscr, TRUE);
+		
+
+		key = getch();
+
+		switch (key)
+		{
+		
+		
+
+		
+		case 'n':
+			quit = TRUE;
+			//이어서 하기
+			//게임 모드 재설정
+			PLAY_STATUS = 1;
+			//기존에 선택된 곡은 후보에 올리지 않음
+			Point[DECESION_MUSIC_SRL] = -600;
+			startPlay(0);
+
+			break;
+		case KEY_ESC:
+			quit = TRUE;
+			clsbody();
+			bodymsg(L"\n\n\n\n\n\nESC를 눌러 플레ddd이를 종료했습니다.");
+
+		}
+
+
+		if (quit == TRUE) {
+
+			break;
+
+		}
+
+ }
 
 	//listbox();
 
