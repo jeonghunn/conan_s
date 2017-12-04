@@ -288,11 +288,11 @@ void PlayMode(int questnum) {
 	clsbody();
 	bodymsg(L"                                /:      \n");
 	bodymsg(L"                   `.-----.`    oys.    \n");
-	bodymsg(L"               ./oyddddddddhy+-`yyo``   \n");
+	bodymsg(L"               ./oyddddddddhy+-`yyo``  추리 결과 \n");
 	bodymsg(L"     `.-:::-./ydmmmmmmmmmmmmmmdyhs:-  ====================================================================  \n");
-	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     제 생각에 당신이 찾는 음악은...\n");
-	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:   ====================================================================   \n");
-	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+     \n");
+	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     바보같은 녀석, 추리에는 이기고 지는 것도 위도 아래도 없어.\n");
+	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:    진실은 언제나 단 하나뿐이니까. \n");
+	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+   ====================================================================     \n");
 	bodymsg(L"    :- ssomsdsymmddymddhyydmhdmmmm:     \n");
 	bodymsg(L"       s-.yshoyyhdmdhy+shyyyyosmmy      \n");
 	bodymsg(L"       `..+hs//:yoyyds+/:.:y+so+/.      "); bodymsg(music[DECESION_MUSIC_SRL].title); bodymsg(L"\n");
