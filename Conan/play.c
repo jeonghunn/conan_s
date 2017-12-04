@@ -24,6 +24,8 @@ struct Tag tags[] = {
 	{ L"힐링", L"힐링되는 평화로운 노래인가요?" },//13
 	{ L"애절", L"무언가 간절한, 애절함이 느껴지는 곡인가요?" },//14
 	{ L"외국어", L"가사 중에 한국어가 아닌 영어 등 외국어가 포함되어 있었나요?" },//15
+	{ L"애니매이션", L"애니매이션에서 사용됐던 음악인가요?" },//16
+	{ L"행복", L"행복이라는 단어와 관련있는 곡인가요?" },//17
 	{ L"오류", L"사용하지 않는 태그 번호입니다." }//끝
 
 };
@@ -34,11 +36,12 @@ struct Music music[] = {
 	{ L"좋아", L"윤종신" ,{ 1,2,3,4,6,10,11 } },//0
 	{ L"그리워하다", L"비투비" ,{ 1,2,7, 8,11,15 } },//0
 	{ L"밤이 되니까", L"펀치" ,{ 3,4,6,7 } },//0
-	{ L"사랑하지 않은 것처럼", L"버즈" ,{ 1,2,6,9,14 } },//0
+	{ L"사랑하지 않은 것처럼", L"버즈" ,{ 1,2,6,7,9,14 } },//0
 	{ L"비도 오고 그래서", L"헤이즈" ,{ 1,2,3,5,7,10,11,14 } },//0
 	{ L"선물", L"멜로망스" ,{ 1,2,12 } },//0
-	{ L"가을 아침", L"아이유" ,{ 3,4,13 } },//0
-	{ L"All Of My Life", L"박원" ,{ 1,2,6,7,9,14,15 } }//0
+	{ L"가을 아침", L"아이유" ,{ 3,4,13,17 } },//0
+	{ L"All Of My Life", L"박원" ,{ 1,2,6,7,9,14,15 } },//0
+    { L"보노보노 OP", L"임지숙" ,{ 3,4,13, 16} }//0
 };
 
 struct command
@@ -374,9 +377,9 @@ void PlayMode(int questnum) {
 	bodymsg(L"       s-.yshoyyhdmdhy+shyyyyosmmy      그나마 추론 가능한 음악들을 뽑아놨으니, 당신이 찾는 음악이 있길 바랍니다.\n");
 	bodymsg(L"       `..+hs//:yoyyds+/:.:y+so+/.      \n");
 	bodymsg(L"          .:o-.:s:--//---://-:++:       \n");
-	bodymsg(L"           .:+:::/:--::::::::::.        1. 나의 사춘기에게 - 볼빨간사춘기\n");
-	bodymsg(L"             `----:so+:-:--++:`         2. 애국가 - 국가\n");
-	bodymsg(L"                `.-::::/+:-/-.`         3. 밤이 되니까 - 펀치\n");
+	bodymsg(L"           .:+:::/:--::::::::::.        1. "); bodymsg(music[DECESION_MUSIC_SRL].title); bodymsg(L" - "); bodymsg(music[DECESION_MUSIC_SRL].artist); bodymsg(L"\n");
+		bodymsg(L"             `----:so+:-:--++:`         2. "); bodymsg(music[SECOND_MUSIC_SRL].title); bodymsg(L" - "); bodymsg(music[SECOND_MUSIC_SRL].artist); bodymsg(L"\n");
+	bodymsg(L"                `.-::::/+:-/-.`         \n");
 	bodymsg(L"               :oosyyyyyos///:os/`      \n");
 	bodymsg(L"              +hhhhyyoyhho+/-:::ys-     \n");
 	bodymsg(L"             -hhhhh---:yo/+///-:-s/     \n");
@@ -401,7 +404,7 @@ void PlayMode(int questnum) {
 	 QUESTION_SRL = 0;
 	 QUESTION_TRY_COUNT = 0;
 	DECESION_MUSIC_SRL = 0;
-	 TAGS_COUNT = 15;
+	 TAGS_COUNT = 17;
 	 MUSIC_COUNT = 10;
 	 TAGS_MAX_COUNT = 15;
 	 readyForShowResult = FALSE;
@@ -507,26 +510,12 @@ void PlayMode(int questnum) {
 				 detected = TRUE;
 				 Point[i] += answer_point;
 
-				 //동류값 갯수
-
-
-				 //1등값 2등값 지정
-				 //1등 지정
-				 if (apexMusicPoint < Point[i]) {
-					 apexMusic = i;
-					 apexMusicPoint = Point[i];
-				 }
-				 else if (secondMusicPoint < Point[i]) {
-					 secondMusicPoint = i;
-					 SECOND_MUSIC_SRL = i;
-					 secondMusicPoint = Point[i];
-				 }
-
-				 //1등 2등 차이 지정
-				 apexDiffer = apexMusicPoint - secondMusicPoint;
 				
-				 break;
+				
 			 }
+			 //동류값 갯수
+
+
 
 			 //찾지 못하고 0을 만난 경우
 			 if (tagnum == 0) {
@@ -536,14 +525,36 @@ void PlayMode(int questnum) {
 			 
 		 }
 
+
+		 //1등값 2등값 지정
+		 //1등 지정
+		 if (apexMusicPoint < Point[i]) {
+			 apexMusic = i;
+			 apexMusicPoint = Point[i];
+		 }
+		 else if (secondMusicPoint < Point[i]) {
+			 secondMusicPoint = i;
+			 SECOND_MUSIC_SRL = i;
+			 secondMusicPoint = Point[i];
+		 }
+
+		
+
+
 	 }
+
+	 //1등 2등 차이 지정
+	 apexDiffer = apexMusicPoint - secondMusicPoint;
+	 //70이상 차이면 비교모드로 전환
+	 if (apexDiffer > 70 && readyForShowResult == 0) readyForShowResult = 1;
+
 	 //그다음에 할 행동 결정합니다.
 	 int randactnum = getRandInt(1, 15);//임의의 변수 만들기
 										//질문 갯수가 너무 적은 경우
 	 if (QUESTION_TRY_COUNT < 7) return 1;
 
 	 //확신이 드는 경우
-	 if (apexDiffer > 30 + randactnum) {
+	 if (apexDiffer > 15 + randactnum) {
 	
 		 if (readyForShowResult == 2) {
 			 //확실함
@@ -586,7 +597,7 @@ void PlayMode(int questnum) {
 	
 
 		 if (DIFFER_D_COUNT > 1) readyForShowResult = 2;
-		 if (DIFFER_D_COUNT > 0 && QUESTION_TRY_COUNT > 49) readyForShowResult = 2;
+		 if ( QUESTION_TRY_COUNT > 49) readyForShowResult = 2;
 	
 
 
