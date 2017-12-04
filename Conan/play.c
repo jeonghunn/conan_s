@@ -38,7 +38,7 @@ struct Music music[] = {
 	{ L"밤이 되니까", L"펀치" ,{ 3,4,6,7 } },//0
 	{ L"사랑하지 않은 것처럼", L"버즈" ,{ 1,2,6,7,9,14 } },//0
 	{ L"비도 오고 그래서", L"헤이즈" ,{ 1,2,3,5,7,10,11,14 } },//0
-	{ L"선물", L"멜로망스" ,{ 1,2,12 } },//0
+	{ L"선물", L"멜로망스" ,{ 1,2,12,17 } },//0
 	{ L"가을 아침", L"아이유" ,{ 3,4,13,17 } },//0
 	{ L"All Of My Life", L"박원" ,{ 1,2,6,7,9,14,15 } },//0
     { L"보노보노 OP", L"임지숙" ,{ 3,4,13, 16} }//0
@@ -405,7 +405,7 @@ void PlayMode(int questnum) {
 	 QUESTION_TRY_COUNT = 0;
 	DECESION_MUSIC_SRL = 0;
 	 TAGS_COUNT = 17;
-	 MUSIC_COUNT = 10;
+	 MUSIC_COUNT = 11;
 	 TAGS_MAX_COUNT = 15;
 	 readyForShowResult = FALSE;
 	 APEX_POINT = 0;
