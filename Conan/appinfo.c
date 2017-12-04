@@ -11,22 +11,22 @@
 
 	bodymsg(L"App Info\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L" ÄÚ³­ - ³ë·¡ Ã£´Â Å½Á¤Àº À½¾ÇÀÇ °íÀ¯ÇÑ Æ¯Â¡À» Áú¹®, ÃßÁ¤ÇÏ¿© Ã£°íÀÚ ÇÏ´Â À½¾ÇÀÌ ¹«¾ùÀÎÁö ¾Ë¾Æ³À´Ï´Ù.\n");
-	bodymsg(L" ±âÁ¸¿¡´Â À½¿øÀ» Àç»ýÇØ¾ß Ã£À» ¼ö ÀÖ¾úÁö¸¸, ConanÀº ¸Ó¸®¼Ó¿¡¼­ Àç»ýµÇ´Â À½¾ÇÀ» Ã£½À´Ï´Ù. Áö±Ý ÇÃ·¹ÀÌÇØº¸¼¼¿ä.");
+	bodymsg(L" ì½”ë‚œ - ë…¸ëž˜ ì°¾ëŠ” íƒì •ì€ ìŒì•…ì˜ ê³ ìœ í•œ íŠ¹ì§•ì„ ì§ˆë¬¸, ì¶”ì •í•˜ì—¬ ì°¾ê³ ìž í•˜ëŠ” ìŒì•…ì´ ë¬´ì—‡ì¸ì§€ ì•Œì•„ëƒ…ë‹ˆë‹¤.\n");
+	bodymsg(L" ê¸°ì¡´ì—ëŠ” ìŒì›ì„ ìž¬ìƒí•´ì•¼ ì°¾ì„ ìˆ˜ ìžˆì—ˆì§€ë§Œ, Conanì€ ë¨¸ë¦¬ì†ì—ì„œ ìž¬ìƒë˜ëŠ” ìŒì•…ì„ ì°¾ìŠµë‹ˆë‹¤. ì§€ê¸ˆ í”Œë ˆì´í•´ë³´ì„¸ìš”.");
 
 	bodymsg(L"\n\n");
 
 	bodymsg(L" Developer & Contributors\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"ÀÌÁ¤ÈÆ, ±è¼öÇö, ¾çÇüÁØ, ÀÌ»ó¹Î, ÀåÀçÇõ\n");
+	bodymsg(L"ì´ì •í›ˆ, ê¹€ìˆ˜í˜„, ì–‘í˜•ì¤€, ì´ìƒë¯¼, ìž¥ìž¬í˜\n");
 
 	bodymsg(L"\n");
 
 	bodymsg(L" ChangeLog\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"0.10 ÇÃ·¹ÀÌ ±â´É ÀÛµ¿\n");
-	bodymsg(L"0.7 Play Result ÆäÀÌÁö ÀÎÅÍÆäÀÌ½º ±¸¼ºµÊ,Play Mode ÀÎÅÍÆäÀÌ½º ±¸¼ºµÊ\n");
-	bodymsg(L"0.1 ÃÊ±â µðÀÚÀÎ ±¸¼º\n");
+	bodymsg(L"0.10 í”Œë ˆì´ ê¸°ëŠ¥ ìž‘ë™\n");
+	bodymsg(L"0.7 Play Result íŽ˜ì´ì§€ ì¸í„°íŽ˜ì´ìŠ¤ êµ¬ì„±ë¨,Play Mode ì¸í„°íŽ˜ì´ìŠ¤ êµ¬ì„±ë¨\n");
+	bodymsg(L"0.1 ì´ˆê¸° ë””ìžì¸ êµ¬ì„±\n");
 
 	bodymsg(L"\n");
 
@@ -48,11 +48,11 @@
 	bodymsg(L"0x1");
 	bodymsg(L"\n\n");
 
-	bodymsg(L"ÀÌÁ¤ÈÆ(20170854) - ÆÀÀå, °³¹ß\n");
-	bodymsg(L"±è¼öÇö(20170814) - ÀÚ·áÁ¤¸®, ¹ßÇ¥ÀÚ·á, À½¿ø µ¥ÀÌÅÍº£ÀÌ½º ±¸¼º\n");
-	bodymsg(L"¾çÇüÁØ(20170842) - °¨Á¤Ç¥Çö°ú °ü·ÃÇÑ ÀÚ·áÁ¶»ç\n");
-	bodymsg(L"ÀÌ»ó¹Î(20170850) - À½¿ø µ¥ÀÌÅÍº£ÀÌ½º ±¸¼º\n");
-	bodymsg(L"ÀåÀçÇõ(20170858) - °¨Á¤Ç¥Çö°ú °ü·ÃÇÑ ÀÚ·áÁ¶»ç\n");
+	bodymsg(L"ì´ì •í›ˆ(20170854) - íŒ€ìž¥, ê°œë°œ\n");
+	bodymsg(L"ê¹€ìˆ˜í˜„(20170814) - ìžë£Œì •ë¦¬, ë°œí‘œìžë£Œ, ìŒì› ë°ì´í„°ë² ì´ìŠ¤ êµ¬ì„±\n");
+	bodymsg(L"ì–‘í˜•ì¤€(20170842) - ê°ì •í‘œí˜„ê³¼ ê´€ë ¨í•œ ìžë£Œì¡°ì‚¬\n");
+	bodymsg(L"ì´ìƒë¯¼(20170850) - ìŒì› ë°ì´í„°ë² ì´ìŠ¤ êµ¬ì„±\n");
+	bodymsg(L"ìž¥ìž¬í˜(20170858) - ê°ì •í‘œí˜„ê³¼ ê´€ë ¨í•œ ìžë£Œì¡°ì‚¬\n");
 
 
 }

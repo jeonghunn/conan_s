@@ -72,8 +72,8 @@ static char *padstr(char *s, int length)
     static char buf[MAXSTRLEN];
     char fmt[10];
 
-    sprintf_s(fmt, sizeof(fmt), (int)strlen(s) > length ? "%%.%ds" : "%%-%ds", length);
-    sprintf_s(buf, sizeof(buf),  fmt, s);
+    snprintf(fmt, sizeof(fmt), (int)strlen(s) > length ? "%%.%ds" : "%%-%ds", length);
+    snprintf(buf, sizeof(buf),  fmt, s);
 
     return buf;
 }
@@ -174,7 +174,7 @@ static void idle(void)
         return;  /* time not available */
 
    // tp = localtime(&t);
-    sprintf_s(buf, sizeof(buf),appversion);
+    snprintf(buf, sizeof(buf),appversion);
 
     mvwaddstr(wtitl, (int)0, (int)(bw - strlen(buf) - 2), buf);
     wrefresh(wtitl);
@@ -251,21 +251,21 @@ static void mainhelp(void)
 	clsbody();
 	bodymsg(L"  ______                        \n / _____)                       \n| /      ___  ____   ____ ____  \n| |     / _ \|  _ \ / _  |  _ \ \n| \____| |_| | | | ( ( | | | | |\n \______)___/|_| |_|\_||_|_| |_|\n\n");
 
-	bodymsg(L"'¾î... ±× ³ë·¡ Á¦¸ñÀÌ ¹¹¿´´õ¶ó...' ³»°¡ Áö±Ý Èï¾ó°Å¸®°í ÀÖ´Â ³ë·¡°¡ ±Ã±ÝÇÒ ¶§\n\n");
+	bodymsg(L"'ì–´... ê·¸ ë…¸ëž˜ ì œëª©ì´ ë­ì˜€ë”ë¼...' ë‚´ê°€ ì§€ê¸ˆ í¥ì–¼ê±°ë¦¬ê³  ìžˆëŠ” ë…¸ëž˜ê°€ ê¶ê¸ˆí•  ë•Œ\n\n");
 
-	bodymsg(L" 0.11 ÆÐÄ¡ º¯°æ ³»¿ª\n");
+	bodymsg(L" 0.11 íŒ¨ì¹˜ ë³€ê²½ ë‚´ì—­\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"Æ²¸° ´ë´äÀÏ½Ã ÀÌ¾î¼­ ÇÃ·¹ÀÌ °¡´É\n");
+	bodymsg(L"í‹€ë¦° ëŒ€ë‹µì¼ì‹œ ì´ì–´ì„œ í”Œë ˆì´ ê°€ëŠ¥\n");
 
 	bodymsg(L"\n\n");
 
-	bodymsg(L" Ã£¾Æ³¾ ¼ö ÀÖ´Â À½¾Ç\n");
+	bodymsg(L" ì°¾ì•„ë‚¼ ìˆ˜ ìžˆëŠ” ìŒì•…\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"10°³ÀÇ »ùÇÃ À½¾Ç\n");
+	bodymsg(L"10ê°œì˜ ìƒ˜í”Œ ìŒì•…\n");
 
 	bodymsg(L"\n\n");
-	bodymsg(L" ÄÚ³­ - ³ë·¡ Ã£´Â Å½Á¤Àº À½¾ÇÀÇ °íÀ¯ÇÑ Æ¯Â¡À» Áú¹®, ÃßÁ¤ÇÏ¿© Ã£°íÀÚ ÇÏ´Â À½¾ÇÀÌ ¹«¾ùÀÎÁö ¾Ë¾Æ³À´Ï´Ù.\n");
-	bodymsg(L" ±âÁ¸¿¡´Â À½¿øÀ» Àç»ýÇØ¾ß Ã£À» ¼ö ÀÖ¾úÁö¸¸, ConanÀº ¸Ó¸®¼Ó¿¡¼­ Àç»ýµÇ´Â À½¾ÇÀ» Ã£½À´Ï´Ù. Áö±Ý ÇÃ·¹ÀÌÇØº¸¼¼¿ä.");
+	bodymsg(L" ì½”ë‚œ - ë…¸ëž˜ ì°¾ëŠ” íƒì •ì€ ìŒì•…ì˜ ê³ ìœ í•œ íŠ¹ì§•ì„ ì§ˆë¬¸, ì¶”ì •í•˜ì—¬ ì°¾ê³ ìž í•˜ëŠ” ìŒì•…ì´ ë¬´ì—‡ì¸ì§€ ì•Œì•„ëƒ…ë‹ˆë‹¤.\n");
+	bodymsg(L" ê¸°ì¡´ì—ëŠ” ìŒì›ì„ ìž¬ìƒí•´ì•¼ ì°¾ì„ ìˆ˜ ìžˆì—ˆì§€ë§Œ, Conanì€ ë¨¸ë¦¬ì†ì—ì„œ ìž¬ìƒë˜ëŠ” ìŒì•…ì„ ì°¾ìŠµë‹ˆë‹¤. ì§€ê¸ˆ í”Œë ˆì´í•´ë³´ì„¸ìš”.");
 
 }
 
@@ -689,7 +689,7 @@ int weditstr(WINDOW *win, char *buf, int field)
         ((int)strlen(buf) > field - 1))
         return ERR;
 
-    strcpy_s(org, sizeof(org),  buf);   /* save original */
+    strncpy(org, buf, sizeof(org));   /* save original */
 
     wrefresh(win);
     getyx(win, cury, curx);
@@ -713,7 +713,7 @@ int weditstr(WINDOW *win, char *buf, int field)
             break;
 
         case KEY_ESC:
-            strcpy_s(buf, sizeof(buf), org);   /* restore original */
+            strncpy(buf, org, sizeof(buf));   /* restore original */
             stop = TRUE;
             break;
 

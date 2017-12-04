@@ -17,8 +17,8 @@ int TAGS_COUNT;
 int TAGS_MAX_COUNT;
 int MUSIC_COUNT;
 int PLAY_STATUS; // 0: startplay 1:  playing 2: result 3: give up
-int QUESTION_SRL; //Áú¹® ³Ñ¹ö
-int QUESTION_TRY_COUNT; //Áö±Ý±îÁö ÇÑ Áú¹® È½¼ö
+int QUESTION_SRL; //ì§ˆë¬¸ ë„˜ë²„
+int QUESTION_TRY_COUNT; //ì§€ê¸ˆê¹Œì§€ í•œ ì§ˆë¬¸ íšŸìˆ˜
 int Point[];
 int SELECTED_ANSWER;
 int readyForShowResult; //0: not yet 1:thinking 2: result
