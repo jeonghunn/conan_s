@@ -10,6 +10,8 @@ void AnswerMaybeYes(void);
 void AnswerUnknown(void);
 void AnswerMaybeNot(void);
 void AnswerNo(void);
+int ASearch(const int a[], int size, int key);
+int getQuestionNumber(void);
 int getRandInt(int, int);
 int TAGS_COUNT;
 int TAGS_MAX_COUNT;
@@ -19,3 +21,5 @@ int QUESTION_SRL; //질문 넘버
 int QUESTION_TRY_COUNT; //지금까지 한 질문 횟수
 int Point[];
 int SELECTED_ANSWER;
+int readyForShowResult; //0: not yet 1:thinking 2: result
+int readyForShowResultCount;
