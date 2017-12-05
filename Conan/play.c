@@ -3,6 +3,9 @@
 #include "decision.h"
 #include "tui.h"
 #include "data.h"
+#include "fmod.h"
+#include "playm.h"
+#include "config_conan.h"
 
 int Point[100];//포인트 초기화 음악 갯수대로
 
@@ -57,6 +60,10 @@ typedef struct command COMMAND;
 int AN;
 int AD;
 
+SndSystem *mSystem = NULL;
+SndSound *mSound = NULL;
+SndChannel *mChannel = NULL;
+
 COMMAND command[MAX_OPTIONS] =
 {
 	{ L"<예 그렇습니다>", AnswerYes },
@@ -67,6 +74,7 @@ COMMAND command[MAX_OPTIONS] =
 
 };
 
+void closeQuest();
 
 void AnswerYes() {
 	SELECTED_ANSWER = 5;
@@ -284,6 +292,10 @@ void PlayMode(int questnum) {
 /****************************Play ***************************/
 
  void PlayResult(int resultmusic) {
+	 // pause music
+	 if(mChannel != NULL){
+		 playm_pauseChannel(mChannel,1);
+	 }
 	beep();
 	clsbody();
 	bodymsg(L"                                /:      \n");
@@ -365,6 +377,7 @@ void PlayMode(int questnum) {
 
  void PlayGiveUp(int resultmusic) {
 	beep();
+	closeQuest();
 	clsbody();
 	bodymsg(L"                                /:      \n");
 	bodymsg(L"                   `.-----.`    oys.    \n");
@@ -400,6 +413,15 @@ void PlayMode(int questnum) {
 
  void initPlay() {
 	//처음 플레이 하는 경우
+/*
+	 SndSystem *mSystem = NULL;
+	 SndSound *mSound = NULL;
+	 SndChannel *mChannel = NULL;
+	 */
+	 if(mSystem == NULL){
+		 playm_createSystem(&mSystem);
+	 }
+	 playm_playSoundWC(mSystem,&mSound,&mChannel,music_playing,1);
 
 	 QUESTION_SRL = 0;
 	 QUESTION_TRY_COUNT = 0;
@@ -426,6 +448,9 @@ void PlayMode(int questnum) {
 	 if (PLAY_STATUS == 1) {
 		 //플레이 중인 경우
 		 //플레이시에 필요한 일회용 지역 변수를 정의합니다.
+		 if(mChannel != NULL && playm_getPaused(mChannel)){
+			 playm_pauseChannel(mChannel,0);
+		 }
 		   
 
 		 //답변받은 정보를 반영합니다. 그리고 결정사항을 받아옵니다.
@@ -448,6 +473,7 @@ void PlayMode(int questnum) {
 
 		 beep();
 		 clsbody();
+		 closeQuest();
 		 bodymsg("\n\n\n\n\n종료 요청이 들어와 플레이가 종료되었습니다.");
 	 }
 
@@ -464,8 +490,18 @@ void PlayMode(int questnum) {
 		 PlayGiveUp(DECESION_MUSIC_SRL);
 	 }
 		 
-	 }
-
+}
+void closeQuest(){
+	mChannel = NULL;
+	if(mSound != NULL){
+		playm_stopSound(mSound);
+	}
+	if(mSystem != NULL){
+		playm_destorySystem(mSystem);
+	}
+	mSound = NULL;
+	mSystem = NULL;
+}
 
 
 

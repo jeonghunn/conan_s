@@ -13,6 +13,7 @@
 #include <wchar.h>
 #include "tui.h"
 #include "appinfo.h"
+#include "config_conan.h"
 
 void statusmsg(char *);
 int waitforkey(void);
@@ -240,15 +241,22 @@ static void repaintmainmenu(int width, menu *mp)
 
 static void mainhelp(void)
 {
-#ifdef ALT_X
-    statusmsg("Use arrow keys and Enter to select (Alt-X to quit) - Created by Junghoon Lee, 2017");
-#else
-    statusmsg("Use arrow keys and Enter to select");
-#endif
+	statusmsg(help_str);
 }
 
  void mainScreen() {
 	clsbody();
+	int i = 0;
+	wchar_t *strP;
+	while(1){
+		strP = *(mainscreen_str+(i++));
+		if(*(strP) != '\0'){
+			bodymsg(strP);
+		}else{
+			break;
+		}
+	}
+/*
 	bodymsg(L"  ______                        \n / _____)                       \n| /      ___  ____   ____ ____  \n| |     / _ \|  _ \ / _  |  _ \ \n| \____| |_| | | | ( ( | | | | |\n \______)___/|_| |_|\_||_|_| |_|\n\n");
 
 	bodymsg(L"'어... 그 노래 제목이 뭐였더라...' 내가 지금 흥얼거리고 있는 노래가 궁금할 때\n\n");
@@ -266,7 +274,7 @@ static void mainhelp(void)
 	bodymsg(L"\n\n");
 	bodymsg(L" 코난 - 노래 찾는 탐정은 음악의 고유한 특징을 질문, 추정하여 찾고자 하는 음악이 무엇인지 알아냅니다.\n");
 	bodymsg(L" 기존에는 음원을 재생해야 찾을 수 있었지만, Conan은 머리속에서 재생되는 음악을 찾습니다. 지금 플레이해보세요.");
-
+*/
 }
 
 static void mainmenu(menu *mp)
