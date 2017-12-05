@@ -175,7 +175,14 @@ static void idle(void)
         return;  /* time not available */
 
    // tp = localtime(&t);
-    snprintf(buf, sizeof(buf),appversion);
+    char av[100] = {};
+    int i = 0;
+    char c;
+    while((c = *(appversion+i)%128) != '\0'){
+    	av[i++] = c;
+    }
+    av[i] = '\0';
+    snprintf(buf, sizeof(buf),av);
 
     mvwaddstr(wtitl, (int)0, (int)(bw - strlen(buf) - 2), buf);
     wrefresh(wtitl);

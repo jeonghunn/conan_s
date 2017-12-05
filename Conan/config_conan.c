@@ -7,8 +7,18 @@
     #define _help_str "Use arrow keys and Enter to select"
 #endif
 
+#define NO_PSEUDO_JH 0
+
+#ifdef DEBUG
+   # define _PSEUDO_JHRUNNING !NO_PSEUDO_JH
+#else
+# define _PSEUDO_JHRUNNING 0
+#endif
+
+
 // Memory drain, so what?
 char *help_str = _help_str;
+long PSEUDO_JHRUNNING = _PSEUDO_JHRUNNING;
 wchar_t mainscreen_str[][300] = {
 		L"  ______                        \n",
 		L" / _____)                       \n",
@@ -31,3 +41,4 @@ wchar_t mainscreen_str[][300] = {
 };
 char music_intro[] = "title.mp3";
 char music_playing[] = "main.mp3";
+const wchar_t *appversion = L"0.14.1206";

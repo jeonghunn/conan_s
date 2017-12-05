@@ -1,5 +1,6 @@
 
 #include "appinfo.h"
+#include "config_conan.h"
 
 /****************************Appinfo ***************************/
 
@@ -9,7 +10,9 @@
 
 	bodymsg(L"About Conan - The Music Detective\n\n");
 
-	bodymsg(L"App Info\n");
+	bodymsg(L"App Info - Verison ");
+	bodymsg(appversion);
+	bodymsg(L"\n");
 	bodymsg(L"======================================\n");
 	bodymsg(L" 코난 - 노래 찾는 탐정은 음악의 고유한 특징을 질문, 추정하여 찾고자 하는 음악이 무엇인지 알아냅니다.\n");
 	bodymsg(L" 기존에는 음원을 재생해야 찾을 수 있었지만, Conan은 머리속에서 재생되는 음악을 찾습니다. 지금 플레이해보세요.");
@@ -18,16 +21,21 @@
 
 	bodymsg(L" Developer & Contributors\n");
 	bodymsg(L"======================================\n");
-	bodymsg(L"이정훈, 김수현, 양형준, 이상민, 장재혁\n");
+	bodymsg(L"이정훈");
+	if(PSEUDO_JHRUNNING){
+		bodymsg(L", 벨붕");
+	}else{
+		bodymsg(L", 김수현, 양형준, 이상민, 장재혁");
+	}
+	bodymsg(L"\n");
 
 	bodymsg(L"\n");
 
 	bodymsg(L" ChangeLog\n");
 	bodymsg(L"======================================\n");
+	bodymsg(L"0.14 소리가 남\n");
 	bodymsg(L"0.10 플레이 기능 작동\n");
 	bodymsg(L"0.7 Play Result 페이지 인터페이스 구성됨,Play Mode 인터페이스 구성됨\n");
-	bodymsg(L"0.1 초기 디자인 구성\n");
-
 	bodymsg(L"\n");
 
 	bodymsg(L" jhrun.tistory.com | tarks.net\n");
