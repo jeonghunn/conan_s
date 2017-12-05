@@ -266,3 +266,5 @@ Conan2/
 **/.settings/
 **/.project
 **/.cproject
+#TUI Demo
+TUI_Demo/
