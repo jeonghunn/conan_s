@@ -34,17 +34,17 @@ struct Tag tags[] = {
 };
 
 struct Music music[] = {
-	{ L"나의 사춘기에게", L"볼빨간사춘기" ,{ 3,4,7,14 } },//0
-	{ L"좋니", L"윤종신" ,{ 1,2,6,7,14 } },//0
-	{ L"좋아", L"윤종신" ,{ 1,2,3,4,6,10,11 } },//0
-	{ L"그리워하다", L"비투비" ,{ 1,2,7, 8,11,15 } },//0
-	{ L"밤이 되니까", L"펀치" ,{ 3,4,6,7 } },//0
-	{ L"사랑하지 않은 것처럼", L"버즈" ,{ 1,2,6,7,9,14 } },//0
-	{ L"비도 오고 그래서", L"헤이즈" ,{ 1,2,3,5,7,10,11,14 } },//0
-	{ L"선물", L"멜로망스" ,{ 1,2,12 } },//0
-	{ L"가을 아침", L"아이유" ,{ 3,4,13,17 } },//0
-	{ L"All Of My Life", L"박원" ,{ 1,2,6,7,9,14,15 } },//0
-    { L"보노보노 OP", L"임지숙" ,{ 3,4,13, 16} }//0
+		{ L"나의 사춘기에게", L"볼빨간사춘기" ,{ 3,4,7,14 } },//0
+		{ L"좋니", L"윤종신" ,{ 1,2,6,7,14 } },//0
+		{ L"좋아", L"윤종신" ,{ 1,2,3,4,6,10,11 } },//0
+		{ L"그리워하다", L"비투비" ,{ 1,2,7, 8,11,15 } },//0
+		{ L"밤이 되니까", L"펀치" ,{ 3,4,6,7 } },//0
+		{ L"사랑하지 않은 것처럼", L"버즈" ,{ 1,2,6,7,9,14 } },//0
+		{ L"비도 오고 그래서", L"헤이즈" ,{ 1,2,3,5,7,10,11,14 } },//0
+		{ L"선물", L"멜로망스" ,{ 1,2,12,17 } },//0
+		{ L"가을 아침", L"아이유" ,{ 3,4,13,17 } },//0
+		{ L"All Of My Life", L"박원" ,{ 1,2,6,7,9,14,15 } },//0
+	    { L"보노보노 OP", L"임지숙" ,{ 3,4,13, 16} }//0
 };
 
 struct command
@@ -300,11 +300,11 @@ void PlayMode(int questnum) {
 	clsbody();
 	bodymsg(L"                                /:      \n");
 	bodymsg(L"                   `.-----.`    oys.    \n");
-	bodymsg(L"               ./oyddddddddhy+-`yyo``   \n");
+	bodymsg(L"               ./oyddddddddhy+-`yyo``  추리 결과 \n");
 	bodymsg(L"     `.-:::-./ydmmmmmmmmmmmmmmdyhs:-  ====================================================================  \n");
-	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     제 생각에 당신이 찾는 음악은...\n");
-	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:   ====================================================================   \n");
-	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+     \n");
+	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     바보같은 녀석, 추리에는 이기고 지는 것도 위도 아래도 없어.\n");
+	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:    진실은 언제나 단 하나뿐이니까. \n");
+	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+   ====================================================================     \n");
 	bodymsg(L"    :- ssomsdsymmddymddhyydmhdmmmm:     \n");
 	bodymsg(L"       s-.yshoyyhdmdhy+shyyyyosmmy      \n");
 	bodymsg(L"       `..+hs//:yoyyds+/:.:y+so+/.      "); bodymsg(music[DECESION_MUSIC_SRL].title); bodymsg(L"\n");
@@ -427,7 +427,7 @@ void PlayMode(int questnum) {
 	 QUESTION_TRY_COUNT = 0;
 	DECESION_MUSIC_SRL = 0;
 	 TAGS_COUNT = 17;
-	 MUSIC_COUNT = 10;
+	 MUSIC_COUNT = 11;
 	 TAGS_MAX_COUNT = 15;
 	 readyForShowResult = FALSE;
 	 APEX_POINT = 0;
