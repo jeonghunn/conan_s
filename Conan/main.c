@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "gui_splash.h"
+#include "config_conan.h"
 
 /* change this if source at other location */
 
@@ -55,52 +56,6 @@ char *getfname(char *desc, char *fname, int field)
 	fieldbuf[0] = fname;
 
 	return (getstrings(fieldname, fieldbuf, field) == KEY_ESC) ? NULL : fname;
-}
-
-/**************************** a very simple file browser ******************/
-
-void showfile(char *fname)
-{
-	int i, bh = bodylen();
-	FILE *fp;
-	char buf[MAXSTRLEN];
-	bool ateof = FALSE;
-
-	statusmsg("FileBrowser: Hit key to continue, Q to quit");
-
-	if ((fp = fopen(fname, "r")) != NULL)   /* file available? */
-	{
-		while (!ateof)
-		{
-			clsbody();
-
-			for (i = 0; i < bh - 1 && !ateof; i++)
-			{
-				buf[0] = '\0';
-				fgets(buf, MAXSTRLEN, fp);
-
-				if (strlen(buf))
-					bodymsg(buf);
-				else
-					ateof = TRUE;
-			}
-
-			switch (waitforkey())
-			{
-			case 'Q':
-			case 'q':
-			case 0x1b:
-				ateof = TRUE;
-			}
-		}
-
-		fclose(fp);
-	}
-	else
-	{
-		snprintf(buf, sizeof(buf),"ERROR: file '%s' not found", fname);
-		errormsg(buf);
-	}
 }
 
 /***************************** forward declarations ***********************/
@@ -197,16 +152,12 @@ void func2(void)
 
 void subfunc1(void)
 {
-	showfile(FNAME);
+
 }
 
 void subfunc2(void)
 {
-	char fname[MAXSTRLEN];
 
-	strncpy(fname, FNAME, sizeof(fname));
-	if (getfname("File to browse:", fname, 50))
-		showfile(fname);
 }
 
 /***************************** submenu3 functions *************************/
@@ -222,7 +173,6 @@ void subsub(void)
 int main(int argc, char **argv)
 {
 	//setlocale(LC_ALL, "Korean");
-	
 	splash();
 	//printf("%s", aa);
 	

@@ -704,7 +704,7 @@ int weditstr(WINDOW *win, char *buf, int field)
         ((int)strlen(buf) > field - 1))
         return ERR;
 
-    strncpy(org, buf, sizeof(org));   /* save original */
+    _strncpy(org, buf, sizeof(org));   /* save original */
 
     wrefresh(win);
     getyx(win, cury, curx);
@@ -728,7 +728,7 @@ int weditstr(WINDOW *win, char *buf, int field)
             break;
 
         case KEY_ESC:
-            strncpy(buf, org, sizeof(buf));   /* restore original */
+        	_strncpy(buf, org, sizeof(buf));   /* restore original */
             stop = TRUE;
             break;
 

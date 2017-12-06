@@ -27,3 +27,7 @@
 #include "tui.h"
 #include "play.h"
 #include "decision.h"
+
+
+char * _strncpy(char *, char *,size_t);
+char * _strcpy_s(char *, size_t,char *);
