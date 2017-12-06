@@ -6,11 +6,22 @@
 
  void AppInfo() {
 	clsbody();
-	bodymsg(L"  ______                        \n / _____)                       \n| /      ___  ____   ____ ____  \n| |     / _ \|  _ \ / _  |  _ \ \n| \____| |_| | | | ( ( | | | | |\n \______)___/|_| |_|\_||_|_| |_|\n\n");
 
+	bodymsg(L"\n  ______                        \n");
+	bodymsg(L" / _____)                       \n");
+	bodymsg(L"| /       ___  ____    ____ ____  \n");
+	bodymsg(L"| |      / _ \\ |  _ \\ / _  |  _ \\ \n");
+	bodymsg(L"| \\\\____ | | | | | | ( ( | | | | |\n");
+	bodymsg(L" \\______)\\___/ |_| |_|\\_||_|_| |_|\n\n");
 	bodymsg(L"About Conan - The Music Detective\n\n");
 
-	bodymsg(L"App Info - Verison ");
+	bodymsg(L" App (");
+	if(VCC){
+		bodymsg(L"Visual Studio build");
+	}else{
+		bodymsg(L"gcc build");
+	}
+	bodymsg(L") / Verison ");
 	bodymsg(appversion);
 	bodymsg(L"\n");
 	bodymsg(L"======================================\n");
@@ -38,7 +49,7 @@
 	bodymsg(L"0.7 Play Result 페이지 인터페이스 구성됨,Play Mode 인터페이스 구성됨\n");
 	bodymsg(L"\n");
 
-	bodymsg(L" jhrun.tistory.com | tarks.net\n");
+	bodymsg(L" jhrun.tistory.com | tarks.net |");
 
 	bodymsg(L" Created by Junghoon Lee, 2017\n");
 

@@ -5,14 +5,14 @@
 
 
 
- struct Music {
+struct Music {
 	wchar_t *title;
 	wchar_t  *artist;
 	int tags[15];
 };
 
 
- struct Tag {
+struct Tag {
 	wchar_t *name;
 	wchar_t *question;
 

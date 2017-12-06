@@ -7,45 +7,7 @@
 #include "playm.h"
 #include "config_conan.h"
 
-int Point[100];//포인트 초기화 음악 갯수대로
-
-
-struct Tag tags[] = {
-	{ L"오류", L"사용하지 않는 태그 번호입니다." },//0
-	{ L"사랑", L"사랑과 관련된 음악입니까?" },//1
-	{ L"남성", L"남자 가수가 부른 부분이 있는 음악인가요?" },//2 
-	{ L"여성", L"여자 가수가 부른 부분이 있는 음악인가요?" },//3
-	{ L"추억", L"어린 시절 추억을 상기시키는 음악인가요?" },//4
-	{ L"혼성", L"혼성 그룹으로 부른 음악인가요?" },//5
-	{ L"이별", L"이별과 관련된 스토리가 담긴 곡인가요?" },//6
-	{ L"그리움", L"그리워하는 마음이 담긴 곡인가요?" },//7
-	{ L"랩", L"랩 요소가 포함된 곡인가요?" },//8
-	{ L"고음", L"고음이 많이 있는 곡인가요?" },//9
-	{ L"듀엣", L"듀엣 곡인가요?" },//10
-	{ L"그룹", L"여러명이서 부른 곡인가요?" },//11
-	{ L"달달함", L"사랑을 시작하거나 하고있는 달달한 곡인가요?" },//12
-	{ L"힐링", L"힐링되는 평화로운 노래인가요?" },//13
-	{ L"애절", L"무언가 간절한, 애절함이 느껴지는 곡인가요?" },//14
-	{ L"외국어", L"가사 중에 한국어가 아닌 영어 등 외국어가 포함되어 있었나요?" },//15
-	{ L"애니매이션", L"애니매이션에서 사용됐던 음악인가요?" },//16
-	{ L"행복", L"행복이라는 단어와 관련있는 곡인가요?" },//17
-	{ L"오류", L"사용하지 않는 태그 번호입니다." }//끝
-
-};
-
-struct Music music[] = {
-		{ L"나의 사춘기에게", L"볼빨간사춘기" ,{ 3,4,7,14 } },//0
-		{ L"좋니", L"윤종신" ,{ 1,2,6,7,14 } },//0
-		{ L"좋아", L"윤종신" ,{ 1,2,3,4,6,10,11 } },//0
-		{ L"그리워하다", L"비투비" ,{ 1,2,7, 8,11,15 } },//0
-		{ L"밤이 되니까", L"펀치" ,{ 3,4,6,7 } },//0
-		{ L"사랑하지 않은 것처럼", L"버즈" ,{ 1,2,6,7,9,14 } },//0
-		{ L"비도 오고 그래서", L"헤이즈" ,{ 1,2,3,5,7,10,11,14 } },//0
-		{ L"선물", L"멜로망스" ,{ 1,2,12,17 } },//0
-		{ L"가을 아침", L"아이유" ,{ 3,4,13,17 } },//0
-		{ L"All Of My Life", L"박원" ,{ 1,2,6,7,9,14,15 } },//0
-	    { L"보노보노 OP", L"임지숙" ,{ 3,4,13, 16} }//0
-};
+int Point[1000];//포인트 초기화 음악 갯수대로
 
 struct command
 {
@@ -400,7 +362,7 @@ void PlayMode(int questnum) {
 	bodymsg(L"            .yhhhhs+yhhhysssooosyo      \n");
 	bodymsg(L"           `ydhhhhhhhhhhhhhdhso++`      \n");
 	bodymsg(L"           /hhhhhyohhhhhhhhh-           \n");
-	bodymsg(L"           +yhhdhhyhhhhhhhhd-           <Enter>를 눌러 게임 종료하기\n");
+	bodymsg(L"           +yhhdhhyhhhhhhhhd-           <ESC>를 눌러 게임 종료하기\n");
 	bodymsg(L"           ohhhhhhhhhhhhhhhy`           \n");
 	bodymsg(L"          .hhhhyyshhhhhhhhhh+           \n");
 	bodymsg(L"          :hhysyyshhhhhhhhhhh.          \n");
@@ -425,9 +387,25 @@ void PlayMode(int questnum) {
 
 	 QUESTION_SRL = 0;
 	 QUESTION_TRY_COUNT = 0;
-	DECESION_MUSIC_SRL = 0;
-	 TAGS_COUNT = 17;
-	 MUSIC_COUNT = 11;
+	 DECESION_MUSIC_SRL = 0;
+
+	 /*
+	  * Init Tags count and music count
+	  */
+	 TAGS_COUNT = 0;
+	 while((tags+TAGS_COUNT++)->name != NULL);
+	 TAGS_COUNT -= 3; // throw start and end
+
+	 MUSIC_COUNT = 0;
+	 while((music+MUSIC_COUNT++)->title != NULL);
+	 MUSIC_COUNT -= 1;
+
+	 /* Reset point array */
+	 int i;
+	 for(i=0;i<MUSIC_COUNT;i+=1){
+		 Point[i] = 0;
+	 }
+
 	 TAGS_MAX_COUNT = 15;
 	 readyForShowResult = FALSE;
 	 APEX_POINT = 0;
