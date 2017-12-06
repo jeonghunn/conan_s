@@ -72,8 +72,8 @@ static char *padstr(char *s, int length)
     static char buf[MAXSTRLEN];
     char fmt[10];
 
-    sprintf_s(fmt, sizeof(fmt), (int)strlen(s) > length ? "%%.%ds" : "%%-%ds", length);
-    sprintf_s(buf, sizeof(buf),  fmt, s);
+    snprintf(fmt, sizeof(fmt), (int)strlen(s) > length ? "%%.%ds" : "%%-%ds", length);
+    snprintf(buf, sizeof(buf),  fmt, s);
 
     return buf;
 }
@@ -174,7 +174,7 @@ static void idle(void)
         return;  /* time not available */
 
    // tp = localtime(&t);
-    sprintf_s(buf, sizeof(buf),appversion);
+    snprintf(buf, sizeof(buf),appversion);
 
     mvwaddstr(wtitl, (int)0, (int)(bw - strlen(buf) - 2), buf);
     wrefresh(wtitl);
@@ -689,7 +689,7 @@ int weditstr(WINDOW *win, char *buf, int field)
         ((int)strlen(buf) > field - 1))
         return ERR;
 
-    strcpy_s(org, sizeof(org),  buf);   /* save original */
+    strncpy(org, buf, sizeof(org));   /* save original */
 
     wrefresh(win);
     getyx(win, cury, curx);
@@ -713,7 +713,7 @@ int weditstr(WINDOW *win, char *buf, int field)
             break;
 
         case KEY_ESC:
-            strcpy_s(buf, sizeof(buf), org);   /* restore original */
+            strncpy(buf, org, sizeof(buf));   /* restore original */
             stop = TRUE;
             break;
 

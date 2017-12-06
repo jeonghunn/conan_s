@@ -158,7 +158,7 @@ int listbox()
 			int selected_opt;
 			MEVENT mouse_event;
 
-			getmouse(&mouse_event);
+			nc_getmouse(&mouse_event);
 
 			selected_opt = mouse_event.y - tmarg;
 			if (selected_opt >= 0 && selected_opt < 5)
@@ -250,7 +250,7 @@ int listbox()
 //int to chararray
 void printBodyInt(int num) {
 	char* numarray[3];
-	sprintf_s(numarray, sizeof(numarray), "%d", num);
+	snprintf(numarray, sizeof(numarray), "%d", num);
 	bodycmsg(numarray);
 }
 /****************************Play ***************************/
