@@ -3,62 +3,11 @@
 #include "decision.h"
 #include "tui.h"
 #include "data.h"
+#include "fmod.h"
+#include "playm.h"
+#include "config_conan.h"
 
-int Point[100];//Æ÷ÀÎÆ® ÃÊ±âÈ­ À½¾Ç °¹¼ö´ë·Î
-
-
-struct Tag tags[] = {
-	{ L"¿À·ù", L"»ç¿ëÇÏÁö ¾Ê´Â ÅÂ±× ¹øÈ£ÀÔ´Ï´Ù." },//0
-	{ L"»ç¶û", L"»ç¶û°ú °ü·ÃµÈ À½¾ÇÀÔ´Ï±î?" },//1
-	{ L"³²¼º", L"³²ÀÚ °¡¼ö°¡ ºÎ¸¥ ºÎºĞÀÌ ÀÖ´Â À½¾ÇÀÎ°¡¿ä?" },//2 
-	{ L"¿©¼º", L"¿©ÀÚ °¡¼ö°¡ ºÎ¸¥ ºÎºĞÀÌ ÀÖ´Â À½¾ÇÀÎ°¡¿ä?" },//3
-	{ L"Ãß¾ï", L"¾î¸° ½ÃÀı Ãß¾ïÀ» »ó±â½ÃÅ°´Â À½¾ÇÀÎ°¡¿ä?" },//4
-	{ L"È¥¼º", L"È¥¼º ±×·ìÀ¸·Î ºÎ¸¥ À½¾ÇÀÎ°¡¿ä?" },//5
-	{ L"ÀÌº°", L"ÀÌº°°ú °ü·ÃµÈ ½ºÅä¸®°¡ ´ã±ä °îÀÎ°¡¿ä?" },//6
-	{ L"±×¸®¿ò", L"±×¸®¿öÇÏ´Â ¸¶À½ÀÌ ´ã±ä °îÀÎ°¡¿ä?" },//7
-	{ L"·¦", L"·¦ ¿ä¼Ò°¡ Æ÷ÇÔµÈ °îÀÎ°¡¿ä?" },//8
-	{ L"°íÀ½", L"°íÀ½ÀÌ ¸¹ÀÌ ÀÖ´Â °îÀÎ°¡¿ä?" },//9
-	{ L"µà¿§", L"µà¿§ °îÀÎ°¡¿ä?" },//10
-	{ L"±×·ì", L"¿©·¯¸íÀÌ¼­ ºÎ¸¥ °îÀÎ°¡¿ä?" },//11
-	{ L"´Ş´ŞÇÔ", L"»ç¶ûÀ» ½ÃÀÛÇÏ°Å³ª ÇÏ°íÀÖ´Â ´Ş´ŞÇÑ °îÀÎ°¡¿ä?" },//12
-	{ L"Èú¸µ", L"Èú¸µµÇ´Â ÆòÈ­·Î¿î ³ë·¡ÀÎ°¡¿ä?" },//13
-	{ L"¾ÖÀı", L"¹«¾ğ°¡ °£ÀıÇÑ, ¾ÖÀıÇÔÀÌ ´À²¸Áö´Â °îÀÎ°¡¿ä?" },//14
-	{ L"¿Ü±¹¾î", L"°¡»ç Áß¿¡ ÇÑ±¹¾î°¡ ¾Æ´Ñ ¿µ¾î µî ¿Ü±¹¾î°¡ Æ÷ÇÔµÇ¾î ÀÖ¾ú³ª¿ä?" },//15
-	{ L"¾Ö´Ï¸ÅÀÌ¼Ç", L"¾Ö´Ï¸ÅÀÌ¼Ç¿¡¼­ »ç¿ëµÆ´ø À½¾ÇÀÎ°¡¿ä?" },//16
-	{ L"Çàº¹", L"Çàº¹ÀÌ¶ó´Â ´Ü¾î¿Í °ü·ÃÀÖ´Â °îÀÎ°¡¿ä?" },//17
-	{ L"¼Ö·Î", L"È¥ÀÚ ºÎ¸¥ °îÀÎ°¡¿ä?" },//18
-	{ L"µé½â", L"ÃãÀ» Ãâ°Í°°ÀÌ ¸öÀÌ µé½âÀÌ´Â À½¾ÇÀÎ°¡¿ä? µÒÄ©µÒÄ©" },//19
-	{ L"À½½Ä", L"¹º°¡ ¸ÔÀ»¸¸ÇÑ ¸ÀÀÖ´Â °ÍµéÀÌ ³ª¿À´Â ³ë·¡ÀÎ°¡¿ä?" },//20
-	{ L"Â¦»ç¶û", L"Â¦»ç¶ûÇÏ´Â °îÀÎ°¡¿ä?(Çì¾îÁø°Ô ¾Æ´Ô)" },//21
-	{ L"ÈÖÆÄ¶÷", L"ÈÖÆÄ¶÷ ¼Ò¸®°¡ ³ª´Â ºÎºĞÀÌ ÀÖ´Â °îÀÎ°¡¿ä?" },//22
-	{ L"º£ÀÌºñ", L"°¡»ç¿¡ 'º£ÀÌºñ(Baby)'¶ó´Â ±¸ÀıÀÌ µé¾î°¡³ª¿ä?" },//23
-	{ L"¿À·ù", L"»ç¿ëÇÏÁö ¾Ê´Â ÅÂ±× ¹øÈ£ÀÔ´Ï´Ù." }//³¡
-
-};
-
-struct Music music[] = {
-	{ L"³ªÀÇ »çÃá±â¿¡°Ô", L"º¼»¡°£»çÃá±â" ,{ 3,4,7,14,18 } },//0
-	{ L"ÁÁ´Ï", L"À±Á¾½Å" ,{ 1,2,6,7,14,18 } },//0
-	{ L"ÁÁ¾Æ", L"À±Á¾½Å" ,{ 1,2,3,4,6,10,11 } },//0
-	{ L"±×¸®¿öÇÏ´Ù", L"ºñÅõºñ" ,{ 1,2,7,9, 8,11,15 } },//0
-	{ L"¹ãÀÌ µÇ´Ï±î", L"ÆİÄ¡" ,{ 3,4,6,7,18 } },//0
-	{ L"»ç¶ûÇÏÁö ¾ÊÀº °ÍÃ³·³", L"¹öÁî" ,{ 1,2,6,7,9,14,18 } },//0
-	{ L"ºñµµ ¿À°í ±×·¡¼­", L"ÇìÀÌÁî" ,{ 1,2,3,5,7,10,11,14 } },//0
-	{ L"¼±¹°", L"¸á·Î¸Á½º" ,{ 1,2,12,17,18 } },//0
-	{ L"°¡À» ¾ÆÄ§", L"¾ÆÀÌÀ¯" ,{ 3,4,13,17,18 } },//0
-	{ L"All Of My Life", L"¹Ú¿ø" ,{ 1,2,6,7,9,14,15,18 } },//0
-    { L"º¸³ëº¸³ë OP", L"ÀÓÁö¼÷" ,{ 3,4,13, 16,18} },//0
-	{ L"½æÅ»°Å¾ß", L"º¼»¡°£»çÃá±â" ,{ 1,3,12,17,18,21 } },//0
-	{ L"½ÃÂ÷(We Are) (Feat. ·Î²¿& Gray)", L"¿ì¿øÀç" ,{ 2, 8,10, 11, 15, 19} },//0
-	{ L"Blue", L"º¼»¡°£»çÃá±â" ,{ 1,3,6,7, 15,18 } },//0
-	{ L"°¡½Ã³ª", L"¼±¹Ì" ,{ 1,3,6,7,15,18,19 } },//
-	{ L"¹ãÆíÁö", L"¾ÆÀÌÀ¯" ,{ 1,3,4,7,9,12,13,18 } },//16
-	{ L"»¡°£ ¸À (Red Favor)", L"·¹µåº§ºª" ,{1, 3,11,15,19,20,23 } },//17
-	{ L"¿¡³ÊÁ¦Æ½ (Energetic)", L"À§³Ê¿ø" ,{ 1,2,11,15,19,23 } },//18
-	{ L"°íÃÄÁÖ¼¼¿ä", L"º¼»¡°£»çÃá±â" ,{ 1,3,7,8,10,11,15,21} },//19
-	{ L"DNA", L"¹æÅº¼Ò³â´Ü" ,{ 1,2,8,11,15,19,22,23 } },//20
-	{ L"¸¶Áö¸·Ã³·³", L"ºí·¢ÇÎÅ©" ,{ 1,3,7,8,11,15,19,23 } },//21
-};
+int Point[1000];//í¬ì¸íŠ¸ ì´ˆê¸°í™” ìŒì•… ê°¯ìˆ˜ëŒ€ë¡œ
 
 struct command
 {
@@ -73,16 +22,21 @@ typedef struct command COMMAND;
 int AN;
 int AD;
 
+SndSystem *mSystem = NULL;
+SndSound *mSound = NULL;
+SndChannel *mChannel = NULL;
+
 COMMAND command[MAX_OPTIONS] =
 {
-	{ L"<¿¹ ±×·¸½À´Ï´Ù>", AnswerYes },
-	{ L"<±×·±°Å °°½À´Ï´Ù>", AnswerMaybeYes },
-	{ L"<¸ğ¸£°Ú½À´Ï´Ù>", AnswerUnknown },
-	{ L"<¾Æ´Ñ°Å °°½À´Ï´Ù>", AnswerMaybeNot },
-	{ L"<¾Æ´Ñµ¥¿ä>", AnswerNo }
+	{ L"<ì˜ˆ ê·¸ë ‡ìŠµë‹ˆë‹¤>", AnswerYes },
+	{ L"<ê·¸ëŸ°ê±° ê°™ìŠµë‹ˆë‹¤>", AnswerMaybeYes },
+	{ L"<ëª¨ë¥´ê² ìŠµë‹ˆë‹¤>", AnswerUnknown },
+	{ L"<ì•„ë‹Œê±° ê°™ìŠµë‹ˆë‹¤>", AnswerMaybeNot },
+	{ L"<ì•„ë‹Œë°ìš”>", AnswerNo }
 
 };
 
+void closeQuest();
 
 void AnswerYes() {
 	SELECTED_ANSWER = 5;
@@ -103,7 +57,7 @@ void AnswerNo() {
 	SELECTED_ANSWER = 1;
 }
 
-//±×·¸½À´Ï´Ù ¾Æ´Õ´Ï´Ù ÀÌ·±°Íµé
+//ê·¸ë ‡ìŠµë‹ˆë‹¤ ì•„ë‹™ë‹ˆë‹¤ ì´ëŸ°ê²ƒë“¤
 void display_menu(int old_option, int new_option)
 {
 	int lmarg = (COLS - 14) / 2,
@@ -231,7 +185,7 @@ int listbox()
 		case KEY_ESC:
 			quit = TRUE;
 			clsbody();
-			bodymsg(L"\n\n\n\n\n\nESC¸¦ ´­·¯ ÇÃ·¹ÀÌ¸¦ Á¾·áÇß½À´Ï´Ù.");
+			bodymsg(L"\n\n\n\n\n\nESCë¥¼ ëˆŒëŸ¬ í”Œë ˆì´ë¥¼ ì¢…ë£Œí–ˆìŠµë‹ˆë‹¤.");
 
 		}
 
@@ -300,14 +254,18 @@ void PlayMode(int questnum) {
 /****************************Play ***************************/
 
  void PlayResult(int resultmusic) {
+	 // pause music
+	 if(mChannel != NULL){
+		 playm_pauseChannel(mChannel,1);
+	 }
 	beep();
 	clsbody();
 	bodymsg(L"                                /:      \n");
 	bodymsg(L"                   `.-----.`    oys.    \n");
-	bodymsg(L"               ./oyddddddddhy+-`yyo``  Ãß¸® °á°ú \n");
+	bodymsg(L"               ./oyddddddddhy+-`yyo``  ì¶”ë¦¬ ê²°ê³¼ \n");
 	bodymsg(L"     `.-:::-./ydmmmmmmmmmmmmmmdyhs:-  ====================================================================  \n");
-	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     ¹Ùº¸°°Àº ³à¼®, Ãß¸®¿¡´Â ÀÌ±â°í Áö´Â °Íµµ À§µµ ¾Æ·¡µµ ¾ø¾î.\n");
-	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:    Áø½ÇÀº ¾ğÁ¦³ª ´Ü ÇÏ³ª»ÓÀÌ´Ï±î. \n");
+	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     ë°”ë³´ê°™ì€ ë…€ì„, ì¶”ë¦¬ì—ëŠ” ì´ê¸°ê³  ì§€ëŠ” ê²ƒë„ ìœ„ë„ ì•„ë˜ë„ ì—†ì–´.\n");
+	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:    ì§„ì‹¤ì€ ì–¸ì œë‚˜ ë‹¨ í•˜ë‚˜ë¿ì´ë‹ˆê¹Œ. \n");
 	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+   ====================================================================     \n");
 	bodymsg(L"    :- ssomsdsymmddymddhyydmhdmmmm:     \n");
 	bodymsg(L"       s-.yshoyyhdmdhy+shyyyyosmmy      \n");
@@ -321,9 +279,9 @@ void PlayMode(int questnum) {
 	bodymsg(L"             -hhhhh---:yo/+///-:-s/     \n");
 	bodymsg(L"            `shhhho.-:ys+++oo++:/yo     \n");
 	bodymsg(L"            .yhhhhs+yhhhysssooosyo      \n");
-	bodymsg(L"           `ydhhhhhhhhhhhhhdhso++`      ÀÌ³ë·¡ ¾Æ´Ñµ¥;; - NÀ» ´­·¯ °è¼Ó ÁøÇàÇÏ±â\n");
+	bodymsg(L"           `ydhhhhhhhhhhhhhdhso++`      ì´ë…¸ë˜ ì•„ë‹Œë°;; - Nì„ ëˆŒëŸ¬ ê³„ì† ì§„í–‰í•˜ê¸°\n");
 	bodymsg(L"           /hhhhhyohhhhhhhhh-           \n");
-	bodymsg(L"           +yhhdhhyhhhhhhhhd-           ÀÌ°Å ¸Â¾Æ¿ä - <ESC>¸¦ ´­·¯ °ÔÀÓ Á¾·áÇÏ±â\n");
+	bodymsg(L"           +yhhdhhyhhhhhhhhd-           ì´ê±° ë§ì•„ìš” - <ESC>ë¥¼ ëˆŒëŸ¬ ê²Œì„ ì¢…ë£Œí•˜ê¸°\n");
 	bodymsg(L"           ohhhhhhhhhhhhhhhy`           \n");
 	bodymsg(L"          .hhhhyyshhhhhhhhhh+           \n");
 	bodymsg(L"          :hhysyyshhhhhhhhhhh.          \n");
@@ -348,10 +306,10 @@ void PlayMode(int questnum) {
 		
 		case 'n':
 			quit = TRUE;
-			//ÀÌ¾î¼­ ÇÏ±â
-			//°ÔÀÓ ¸ğµå Àç¼³Á¤
+			//ì´ì–´ì„œ í•˜ê¸°
+			//ê²Œì„ ëª¨ë“œ ì¬ì„¤ì •
 			PLAY_STATUS = 1;
-			//±âÁ¸¿¡ ¼±ÅÃµÈ °îÀº ÈÄº¸¿¡ ¿Ã¸®Áö ¾ÊÀ½
+			//ê¸°ì¡´ì— ì„ íƒëœ ê³¡ì€ í›„ë³´ì— ì˜¬ë¦¬ì§€ ì•ŠìŒ
 			Point[DECESION_MUSIC_SRL] = -600;
 			startPlay(0);
 
@@ -359,7 +317,7 @@ void PlayMode(int questnum) {
 		case KEY_ESC:
 			quit = TRUE;
 			clsbody();
-			bodymsg(L"\n\n\n\n\n\nESC¸¦ ´­·¯ ÇÃ·¹dddÀÌ¸¦ Á¾·áÇß½À´Ï´Ù.");
+			bodymsg(L"\n\n\n\n\n\nESCë¥¼ ëˆŒëŸ¬ í”Œë ˆdddì´ë¥¼ ì¢…ë£Œí–ˆìŠµë‹ˆë‹¤.");
 
 		}
 
@@ -381,16 +339,17 @@ void PlayMode(int questnum) {
 
  void PlayGiveUp(int resultmusic) {
 	beep();
+	closeQuest();
 	clsbody();
 	bodymsg(L"                                /:      \n");
 	bodymsg(L"                   `.-----.`    oys.    \n");
 	bodymsg(L"               ./oyddddddddhy+-`yyo``   \n");
 	bodymsg(L"     `.-:::-./ydmmmmmmmmmmmmmmdyhs:-  ====================================================================  \n");
-	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     ¶§·ÁÃÆ½À´Ï´Ù.\n");
+	bodymsg(L"     ` `:+sydmmmmmmmmmmmmmmmmdmmdo     ë•Œë ¤ì³¤ìŠµë‹ˆë‹¤.\n");
 	bodymsg(L"     `+hhhhdmmmmdmmmmmmmmmmmmdhddh:   ====================================================================   \n");
-	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+     Á¦ ¸í¼®ÇÑ µÎ³ú¸¦ ¹ÙÅÁÀ¸·Î °õ°õÈ÷ °í¹ÎÇØ º¸¾ÒÁö¸¸,\n");
-	bodymsg(L"    :- ssomsdsymmddymddhyydmhdmmmm:     ´ç½ÅÀÌ »ı°¢ÇÏ´Â °Ô ¹ºÁö ¾Ë·¡¾ß ¾Ë¼ö°¡ ¾ø½À´Ï´Ù.\n");
-	bodymsg(L"       s-.yshoyyhdmdhy+shyyyyosmmy      ±×³ª¸¶ Ãß·Ğ °¡´ÉÇÑ À½¾ÇµéÀ» »Ì¾Æ³ùÀ¸´Ï, ´ç½ÅÀÌ Ã£´Â À½¾ÇÀÌ ÀÖ±æ ¹Ù¶ø´Ï´Ù.\n");
+	bodymsg(L"    `ys/yddmdmmmhdmmmmmmmmmmmmmmmd+     ì œ ëª…ì„í•œ ë‘ë‡Œë¥¼ ë°”íƒ•ìœ¼ë¡œ ê³°ê³°íˆ ê³ ë¯¼í•´ ë³´ì•˜ì§€ë§Œ,\n");
+	bodymsg(L"    :- ssomsdsymmddymddhyydmhdmmmm:     ë‹¹ì‹ ì´ ìƒê°í•˜ëŠ” ê²Œ ë­”ì§€ ì•Œë˜ì•¼ ì•Œìˆ˜ê°€ ì—†ìŠµë‹ˆë‹¤.\n");
+	bodymsg(L"       s-.yshoyyhdmdhy+shyyyyosmmy      ê·¸ë‚˜ë§ˆ ì¶”ë¡  ê°€ëŠ¥í•œ ìŒì•…ë“¤ì„ ë½‘ì•„ë†¨ìœ¼ë‹ˆ, ë‹¹ì‹ ì´ ì°¾ëŠ” ìŒì•…ì´ ìˆê¸¸ ë°”ëë‹ˆë‹¤.\n");
 	bodymsg(L"       `..+hs//:yoyyds+/:.:y+so+/.      \n");
 	bodymsg(L"          .:o-.:s:--//---://-:++:       \n");
 	bodymsg(L"           .:+:::/:--::::::::::.        1. "); bodymsg(music[DECESION_MUSIC_SRL].title); bodymsg(L" - "); bodymsg(music[DECESION_MUSIC_SRL].artist); bodymsg(L"\n");
@@ -403,7 +362,7 @@ void PlayMode(int questnum) {
 	bodymsg(L"            .yhhhhs+yhhhysssooosyo      \n");
 	bodymsg(L"           `ydhhhhhhhhhhhhhdhso++`      \n");
 	bodymsg(L"           /hhhhhyohhhhhhhhh-           \n");
-	bodymsg(L"           +yhhdhhyhhhhhhhhd-           <ESC>¸¦ ´­·¯ °ÔÀÓ Á¾·áÇÏ±â\n");
+	bodymsg(L"           +yhhdhhyhhhhhhhhd-           <ESC>ë¥¼ ëˆŒëŸ¬ ê²Œì„ ì¢…ë£Œí•˜ê¸°\n");
 	bodymsg(L"           ohhhhhhhhhhhhhhhy`           \n");
 	bodymsg(L"          .hhhhyyshhhhhhhhhh+           \n");
 	bodymsg(L"          :hhysyyshhhhhhhhhhh.          \n");
@@ -415,13 +374,38 @@ void PlayMode(int questnum) {
 }
 
  void initPlay() {
-	//Ã³À½ ÇÃ·¹ÀÌ ÇÏ´Â °æ¿ì
+	//ì²˜ìŒ í”Œë ˆì´ í•˜ëŠ” ê²½ìš°
+/*
+	 SndSystem *mSystem = NULL;
+	 SndSound *mSound = NULL;
+	 SndChannel *mChannel = NULL;
+	 */
+	 if(mSystem == NULL){
+		 playm_createSystem(&mSystem);
+	 }
+	 playm_playSoundWC(mSystem,&mSound,&mChannel,music_playing,1);
 
 	 QUESTION_SRL = 0;
 	 QUESTION_TRY_COUNT = 0;
-	DECESION_MUSIC_SRL = 0;
-	 TAGS_COUNT = 23;
-	 MUSIC_COUNT = 21;
+	 DECESION_MUSIC_SRL = 0;
+
+	 /*
+	  * Init Tags count and music count
+	  */
+	 TAGS_COUNT = 0;
+	 while((tags+TAGS_COUNT++)->name != NULL);
+	 TAGS_COUNT -= 3; // throw start and end
+
+	 MUSIC_COUNT = 0;
+	 while((music+MUSIC_COUNT++)->title != NULL);
+	 MUSIC_COUNT -= 1;
+
+	 /* Reset point array */
+	 int i;
+	 for(i=0;i<MUSIC_COUNT;i+=1){
+		 Point[i] = 0;
+	 }
+
 	 TAGS_MAX_COUNT = 15;
 	 readyForShowResult = FALSE;
 	 APEX_POINT = 0;
@@ -432,19 +416,22 @@ void PlayMode(int questnum) {
  }
 
  void startPlay(int answernum) {
-	 //answernum 0ºÎÅÍ Á¤º¸¾øÀ½, ¾Æ´Ñµ¥¿ä, Àß ¸ğ¸£°Ú½À´Ï´Ù, ¸ğ¸£°Ú½À´Ï´Ù. ±×·²°Ì´Ï´Ù. ¸Â½À´Ï´Ù.
+	 //answernum 0ë¶€í„° ì •ë³´ì—†ìŒ, ì•„ë‹Œë°ìš”, ì˜ ëª¨ë¥´ê² ìŠµë‹ˆë‹¤, ëª¨ë¥´ê² ìŠµë‹ˆë‹¤. ê·¸ëŸ´ê²ë‹ˆë‹¤. ë§ìŠµë‹ˆë‹¤.
 	
 	 
 
 	 
 
-	 //ÇöÀç »óÇ×À» Á¡°ËÇÕ´Ï´Ù.
+	 //í˜„ì¬ ìƒí•­ì„ ì ê²€í•©ë‹ˆë‹¤.
 	 if (PLAY_STATUS == 1) {
-		 //ÇÃ·¹ÀÌ ÁßÀÎ °æ¿ì
-		 //ÇÃ·¹ÀÌ½Ã¿¡ ÇÊ¿äÇÑ ÀÏÈ¸¿ë Áö¿ª º¯¼ö¸¦ Á¤ÀÇÇÕ´Ï´Ù.
+		 //í”Œë ˆì´ ì¤‘ì¸ ê²½ìš°
+		 //í”Œë ˆì´ì‹œì— í•„ìš”í•œ ì¼íšŒìš© ì§€ì—­ ë³€ìˆ˜ë¥¼ ì •ì˜í•©ë‹ˆë‹¤.
+		 if(mChannel != NULL && playm_getPaused(mChannel)){
+			 playm_pauseChannel(mChannel,0);
+		 }
 		   
 
-		 //´äº¯¹ŞÀº Á¤º¸¸¦ ¹İ¿µÇÕ´Ï´Ù. ±×¸®°í °áÁ¤»çÇ×À» ¹Ş¾Æ¿É´Ï´Ù.
+		 //ë‹µë³€ë°›ì€ ì •ë³´ë¥¼ ë°˜ì˜í•©ë‹ˆë‹¤. ê·¸ë¦¬ê³  ê²°ì •ì‚¬í•­ì„ ë°›ì•„ì˜µë‹ˆë‹¤.
 		 if (answernum != 0) {
 			 PLAY_STATUS = decesion(QUESTION_SRL, answernum);
 		 }
@@ -452,9 +439,9 @@ void PlayMode(int questnum) {
 		
 
 		
-			 //Áú¹® È½¼ö¸¦ Áõ°¡½ÃÅµ´Ï´Ù.
+			 //ì§ˆë¬¸ íšŸìˆ˜ë¥¼ ì¦ê°€ì‹œí‚µë‹ˆë‹¤.
 			 QUESTION_TRY_COUNT++;
-			 //·£´ı°ªÀ» ÇÈÇØ Áú¹® Á¤º¸¸¦ Á¤ÇÕ´Ï´Ù.
+			 //ëœë¤ê°’ì„ í”½í•´ ì§ˆë¬¸ ì •ë³´ë¥¼ ì •í•©ë‹ˆë‹¤.
 			 QUESTION_SRL = getQuestionNumber();
 
 			 PlayMode(QUESTION_SRL);
@@ -464,14 +451,15 @@ void PlayMode(int questnum) {
 
 		 beep();
 		 clsbody();
-		 bodymsg("\n\n\n\n\nÁ¾·á ¿äÃ»ÀÌ µé¾î¿Í ÇÃ·¹ÀÌ°¡ Á¾·áµÇ¾ú½À´Ï´Ù.");
+		 closeQuest();
+		 bodymsg("\n\n\n\n\nì¢…ë£Œ ìš”ì²­ì´ ë“¤ì–´ì™€ í”Œë ˆì´ê°€ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 	 }
 
 
 
 	 if (PLAY_STATUS == 2) {
 		 PlayResult(DECESION_MUSIC_SRL);
-		 //°á°ú ³½°Å ÃÊ±âÈ­
+		 //ê²°ê³¼ ë‚¸ê±° ì´ˆê¸°í™”
 		 readyForShowResult = 0;
 		 DIFFER_D_COUNT = 0;
 	 }
@@ -480,8 +468,18 @@ void PlayMode(int questnum) {
 		 PlayGiveUp(DECESION_MUSIC_SRL);
 	 }
 		 
-	 }
-
+}
+void closeQuest(){
+	mChannel = NULL;
+	if(mSound != NULL){
+		playm_stopSound(mSound);
+	}
+	if(mSystem != NULL){
+		playm_destorySystem(mSystem);
+	}
+	mSound = NULL;
+	mSystem = NULL;
+}
 
 
 
@@ -497,9 +495,9 @@ void PlayMode(int questnum) {
  int decesion( int questnum, int answer) {
 	 int decesion_result = 0; // 0: nothing 1:  playing 2: result 3: give up
 	 int answer_point = 0;
-	 int apexMusic = -1; //1µîÀ½¾Ç°ª
+	 int apexMusic = -1; //1ë“±ìŒì•…ê°’
 	 int apexMusicPoint = -50;
-	 int secondMusic = -1;// 2µîÀ½¾Ç°ª
+	 int secondMusic = -1;// 2ë“±ìŒì•…ê°’
 	 int secondMusicPoint = -50;
 	 int apexDiffer = 0;
 
@@ -511,29 +509,29 @@ void PlayMode(int questnum) {
 	 if (answer == 5) answer_point = answer_point + 10;
 
 
-	 //Á¡¼ö ¹İ¿µÇÕ´Ï´Ù. 
-	 //¸ğµç À½¾Ç¿¡ ¹İ¿µÇÏ´Â ¹İº¹¹®ÀÔ´Ï´Ù.
+	 //ì ìˆ˜ ë°˜ì˜í•©ë‹ˆë‹¤. 
+	 //ëª¨ë“  ìŒì•…ì— ë°˜ì˜í•˜ëŠ” ë°˜ë³µë¬¸ì…ë‹ˆë‹¤.
 	 for (int i = 0; i < MUSIC_COUNT; i++) {
-		 // ÅÂ±× ³»¿¡¼­ ÇØ´çµÇ´Â ÅÂ±×°¡ ÀÖ´ÂÁö °Ë»çÇÕ´Ï´Ù.
+		 // íƒœê·¸ ë‚´ì—ì„œ í•´ë‹¹ë˜ëŠ” íƒœê·¸ê°€ ìˆëŠ”ì§€ ê²€ì‚¬í•©ë‹ˆë‹¤.
 		 bool detected = FALSE;
 		 for (int j = 1; j <= TAGS_MAX_COUNT; j++) {
-			 //ÅÂ±× ¹øÈ£
+			 //íƒœê·¸ ë²ˆí˜¸
 			 int tagnum = music[i].tags[j];
 
-			 //ÅÂ±×¸¦ Ã£Àº °æ¿ì
+			 //íƒœê·¸ë¥¼ ì°¾ì€ ê²½ìš°
 			 if (questnum == tagnum) {
-				 //Æ÷ÀÎÆ® º¯°æ
+				 //í¬ì¸íŠ¸ ë³€ê²½
 				 detected = TRUE;
 				 Point[i] += answer_point;
 
 				
 				
 			 }
-			 //µ¿·ù°ª °¹¼ö
+			 //ë™ë¥˜ê°’ ê°¯ìˆ˜
 
 
 
-			 //Ã£Áö ¸øÇÏ°í 0À» ¸¸³­ °æ¿ì
+			 //ì°¾ì§€ ëª»í•˜ê³  0ì„ ë§Œë‚œ ê²½ìš°
 			 if (tagnum == 0) {
 				 break;
 			 }
@@ -542,8 +540,8 @@ void PlayMode(int questnum) {
 		 }
 
 
-		 //1µî°ª 2µî°ª ÁöÁ¤
-		 //1µî ÁöÁ¤
+		 //1ë“±ê°’ 2ë“±ê°’ ì§€ì •
+		 //1ë“± ì§€ì •
 		 if (apexMusicPoint < Point[i]) {
 			 apexMusic = i;
 			 apexMusicPoint = Point[i];
@@ -559,43 +557,43 @@ void PlayMode(int questnum) {
 
 	 }
 
-	 //1µî 2µî Â÷ÀÌ ÁöÁ¤
+	 //1ë“± 2ë“± ì°¨ì´ ì§€ì •
 	 apexDiffer = apexMusicPoint - secondMusicPoint;
-	 //70ÀÌ»ó Â÷ÀÌ¸é ºñ±³¸ğµå·Î ÀüÈ¯
+	 //70ì´ìƒ ì°¨ì´ë©´ ë¹„êµëª¨ë“œë¡œ ì „í™˜
 	 if (apexDiffer > 70 && readyForShowResult == 0) readyForShowResult = 1;
 
-	 //±×´ÙÀ½¿¡ ÇÒ Çàµ¿ °áÁ¤ÇÕ´Ï´Ù.
-	 int randactnum = getRandInt(1, 15);//ÀÓÀÇÀÇ º¯¼ö ¸¸µé±â
-										//Áú¹® °¹¼ö°¡ ³Ê¹« ÀûÀº °æ¿ì
+	 //ê·¸ë‹¤ìŒì— í•  í–‰ë™ ê²°ì •í•©ë‹ˆë‹¤.
+	 int randactnum = getRandInt(1, 15);//ì„ì˜ì˜ ë³€ìˆ˜ ë§Œë“¤ê¸°
+										//ì§ˆë¬¸ ê°¯ìˆ˜ê°€ ë„ˆë¬´ ì ì€ ê²½ìš°
 	 if (QUESTION_TRY_COUNT < 7) return 1;
 
-	 //È®½ÅÀÌ µå´Â °æ¿ì
+	 //í™•ì‹ ì´ ë“œëŠ” ê²½ìš°
 	 if (apexDiffer > 15 + randactnum) {
 	
 		 if (readyForShowResult == 2) {
-			 //È®½ÇÇÔ
+			 //í™•ì‹¤í•¨
 			if(apexMusic >= 0) DECESION_MUSIC_SRL = apexMusic;
 			 return 2;
 		 }
-		 //¾ÆÁ÷ »ı°¢Áß ¸ğµå°¡ ¾Æ´Ï¶ó¸é »ı°¢Áß ¸ğµå ¼³Á¤
+		 //ì•„ì§ ìƒê°ì¤‘ ëª¨ë“œê°€ ì•„ë‹ˆë¼ë©´ ìƒê°ì¤‘ ëª¨ë“œ ì„¤ì •
 		 else if (readyForShowResult < 1){
-			 //»ı°¢Áß ¸ğµå ¼³Á¤ ¹× ÃÖÃÊ differ¼­Á¤
+			 //ìƒê°ì¤‘ ëª¨ë“œ ì„¤ì • ë° ìµœì´ˆ differì„œì •
 			 readyForShowResult = 1;
 			 OLD_DIFFER = apexDiffer;
 		 }
 		
 	 } 
 
-	 //³Ê¹«´Ş¶óºØÆ®¸é ¶§·ÁÃÄ
+	 //ë„ˆë¬´ë‹¬ë¼ë¶•íŠ¸ë©´ ë•Œë ¤ì³
 	 if (readyForShowResultCount > 3) {
 		 readyForShowResultCount = 0;
 			 readyForShowResult = 0;
 	 }
 
 	 if (readyForShowResult == 1) {
-		 //È®½ÇÇÑÁö È®ÀÎÇÏ±â
+		 //í™•ì‹¤í•œì§€ í™•ì¸í•˜ê¸°
 	
-		 //±×Àü À½¾ÇÀÌ ÇöÀç À½¾Ç°ú °°´Ù¸é
+		 //ê·¸ì „ ìŒì•…ì´ í˜„ì¬ ìŒì•…ê³¼ ê°™ë‹¤ë©´
 		 if (DECESION_MUSIC_SRL == apexMusic && APEX_POINT <= apexMusicPoint) {
 			 DIFFER_D_COUNT++;
 		 }
@@ -606,7 +604,7 @@ void PlayMode(int questnum) {
 		 }
 
 
-		 if (apexMusic >= 0) DECESION_MUSIC_SRL = apexMusic; //ÀÏ´Ü °á°ú ÈÄº¸ ¿Ã¸², -1°ªÀÌ ¾Æ´Ñ °æ¿ì¸¸ À¯È£°ª
+		 if (apexMusic >= 0) DECESION_MUSIC_SRL = apexMusic; //ì¼ë‹¨ ê²°ê³¼ í›„ë³´ ì˜¬ë¦¼, -1ê°’ì´ ì•„ë‹Œ ê²½ìš°ë§Œ ìœ í˜¸ê°’
 		 APEX_POINT = apexMusicPoint;					 // SECOND_MUSIC_SRL = secondMusic;
 		
 		// NEW_DIFFER = apexDiffer;
@@ -621,18 +619,18 @@ void PlayMode(int questnum) {
 		 return 1;
 	 }
 	 
-	 //Áú¹® °¹¼ö°¡ ³Ê¹« ¸¹Àº °æ¿ì
+	 //ì§ˆë¬¸ ê°¯ìˆ˜ê°€ ë„ˆë¬´ ë§ì€ ê²½ìš°
 	 if (QUESTION_TRY_COUNT > 35 + randactnum) return 3;
-	 return 1; //ÇØ´ç»çÇ× ¾ø´Â ÀÏ¹İÀûÀÎ °æ¿ì
+	 return 1; //í•´ë‹¹ì‚¬í•­ ì—†ëŠ” ì¼ë°˜ì ì¸ ê²½ìš°
  }
 
  int getQuestionNumber() {
-	 if (readyForShowResult == 1) {//¿ø·¡´Â 1
-		 //°á°ú¸¦ °í¹ÎÁßÀÎ °æ¿ì
+	 if (readyForShowResult == 1) {//ì›ë˜ëŠ” 1
+		 //ê²°ê³¼ë¥¼ ê³ ë¯¼ì¤‘ì¸ ê²½ìš°
 
 		 int index = 0;
 		 int resultnum = 0;
-		 int dup = FALSE;//Áßº¹°ª
+		 int dup = FALSE;//ì¤‘ë³µê°’
 
 		
 
@@ -652,17 +650,17 @@ void PlayMode(int questnum) {
 				// bodymsg(music[SECOND_MUSIC_SRL].title);
 			 }
 
-			//Áßº¹ ÀÖ´ÂÁö °Ë»çÇÏ±â
-			 //°°Àº À½¾ÇÀÏ °æ¿ì ½ºÅµ
+			//ì¤‘ë³µ ìˆëŠ”ì§€ ê²€ì‚¬í•˜ê¸°
+			 //ê°™ì€ ìŒì•…ì¼ ê²½ìš° ìŠ¤í‚µ
 			 if (DECESION_MUSIC_SRL == SECOND_MUSIC_SRL && resultnum !=0) return resultnum;
 			 if (randint == 1) {
-				 //1À§²¨·Î ÇÑ °æ¿ì
-				 //2À§ÇÑÅ× ÀÖ´ÂÁö È®ÀÎ
+				 //1ìœ„êº¼ë¡œ í•œ ê²½ìš°
+				 //2ìœ„í•œí…Œ ìˆëŠ”ì§€ í™•ì¸
 				 dup = ASearch(music[SECOND_MUSIC_SRL].tags, TAGS_MAX_COUNT, resultnum) != -1 ? TRUE : FALSE;
 				
 			 }
 			 else {
-				 //2À§²¨·Î ÇÑ °æ¿ì
+				 //2ìœ„êº¼ë¡œ í•œ ê²½ìš°
 				 dup = ASearch(music[DECESION_MUSIC_SRL].tags, TAGS_MAX_COUNT, resultnum) != -1 ? TRUE : FALSE;
 			 }
 		 }
@@ -671,7 +669,7 @@ void PlayMode(int questnum) {
 		
 	 }
 	 else {
-		 //±×³É Áú¹®ÇÏ´Â °æ¿ì
+		 //ê·¸ëƒ¥ ì§ˆë¬¸í•˜ëŠ” ê²½ìš°
 		return getRandInt(1, TAGS_COUNT);
 	 }
  }

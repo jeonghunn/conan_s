@@ -5,6 +5,6 @@ int SECOND_MUSIC_SRL;
 int OLD_DIFFER;
 int NEW_DIFFER;
 int APEX_POINT;
-int DIFFER_D_COUNT; //х╝╫его╢б д╚©Нем
-int C_MUSIC_SRL;// хд╨╦ ю╫╬г srl
+int DIFFER_D_COUNT; //М≥∙Л▀═М∙≤К┼■ Л╧╢Л ╢М└╟
+int C_MUSIC_SRL;// М⌡└КЁ╢ Л²▄Л∙┘ srl
 int decesion(int, int);

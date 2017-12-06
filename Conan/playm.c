@@ -1,10 +1,14 @@
 #include "fmod.h"
 #include <unistd.h>
+#include "playm.h"
 
 #define NULL (void *)0
 
 void playm_createSystem(FMOD_SYSTEM **);
 void playm_playSound(FMOD_SYSTEM *,FMOD_SOUND **,char [200], int);
+void playm_playSoundWC(FMOD_SYSTEM *,FMOD_SOUND **,FMOD_CHANNEL **,char [200], int);
+void playm_pauseChannel(FMOD_CHANNEL *,int);
+int playm_getPaused(FMOD_CHANNEL *);
 void playm_stopSound(FMOD_SOUND *);
 void playm_destorySystem(FMOD_SYSTEM *);
 
@@ -35,7 +39,7 @@ void getSoundPath(char out[600],char fileName[200]){
     }
     *(out+i) = '\0';
 }
-void playm_playSound(FMOD_SYSTEM *sys,FMOD_SOUND **sound,char fileName[200], int loop){
+void playm_playSoundWC(FMOD_SYSTEM *sys,FMOD_SOUND **sound,FMOD_CHANNEL **channel,char fileName[200], int loop){
 	char mPath[600] = {};
 	getSoundPath(mPath,fileName);
     FMOD_System_CreateSound(sys,mPath,FMOD_DEFAULT, 0, sound);
@@ -43,7 +47,18 @@ void playm_playSound(FMOD_SYSTEM *sys,FMOD_SOUND **sound,char fileName[200], int
     if(loop){
         FMOD_Sound_SetLoopCount(*sound,2147483647);
     }
-    FMOD_System_PlaySound(sys,*sound,0,0,NULL);
+    FMOD_System_PlaySound(sys,*sound,0,0,channel);
+}
+void playm_playSound(FMOD_SYSTEM *sys,FMOD_SOUND **sound,char fileName[200], int loop){
+	playm_playSoundWC(sys,sound,NULL,fileName,loop);
+}
+void playm_pauseChannel(FMOD_CHANNEL *channel,int pause){
+	FMOD_Channel_SetPaused(channel,pause);
+}
+int playm_getPaused(FMOD_CHANNEL *channel){
+	FMOD_BOOL pause = 0;
+	FMOD_Channel_GetPaused(channel,&pause);
+	return pause != 0;
 }
 void playm_stopSound(FMOD_SOUND *sound){
 	FMOD_Sound_Release(sound);
