@@ -26,7 +26,7 @@ char *Logo[50] =
 {
 	"   ###            #",
 	"  #   #  #    #  ##",
-	" #     #  #  #  # #   ║",
+	" #     #  #  #  # #   ",
 	" #     #   ##     #   ",
 	" #     #   ##     #   ",
 	"  #   #   #  #    #   ",
@@ -430,7 +430,7 @@ void address(void)
 {
 	char *fieldname[6] =
 	{
-		"Name", "Street", "City", "State", "지역", (char *)0
+		"Name", "Street", "City", "State", "dd", (char *)0
 	};
 
 	char *fieldbuf[5];
